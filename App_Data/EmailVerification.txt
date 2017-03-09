@@ -1,0 +1,8 @@
+﻿<h1>Hello, $firstname $lastname!</h1>
+We are happy that you signed up for DeedCoin!<br/>
+Please verify your email by filling your secret code.<br/>
+<b>This is your secret verification code:</b>
+<div style="width: 100%; text-align: center;"><h2>$vercode</h2></div>
+<br/><br/>
+Thanks,
+DeedCoin team.

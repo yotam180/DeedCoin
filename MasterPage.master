@@ -1,0 +1,146 @@
+﻿<%@ Master Language="VB" AutoEventWireup="true" CodeFile="MasterPage.master.vb" Inherits="MasterPage" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title>DeedCoin - Give More, Get More.</title>
+    <link rel="stylesheet" href="Style/StyleSheet.css" type="text/css" />
+    <link rel="stylesheet" href="Style/Sidenav.css" type="text/css" />
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" />
+    <script type="text/javascript">
+        var navopen = false;
+        jQuery(function ($) {
+            var focusedElementId = "";
+            var prm = Sys.WebForms.PageRequestManager.getInstance();
+
+            prm.add_beginRequest(function (source, args) {
+                var fe = document.activeElement;
+                if (fe != null) {
+                    focusedElementId = fe.id;
+                } else {
+                    focusedElementId = "";
+                }
+            });
+
+            prm.add_endRequest(function (source, args) {
+                if (focusedElementId != "") {
+                    $("#" + focusedElementId).focus();
+                }
+                load();
+            });
+        });
+
+        function toggleNav() {
+            navopen = !navopen;
+            if (navopen) {
+                openNav();
+            } else {
+                closeNav();
+            }
+        }
+
+        var closeMenu = function(menuId) {
+            $(".meninit." + menuId).hide();
+        }
+        var openMenu = function (menuId) {
+            $(".meninit." + menuId).show();
+        }
+
+        /* Set the width of the side navigation to 250px and the left margin of the page content to 250px and add a black background color to body */
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+            document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+        }
+
+        /* Set the width of the side navigation to 0 and the left margin of the page content to 0, and the background color of body to white */
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+            document.body.style.backgroundColor = "white";
+        }
+
+        $(document).ready(function () {
+            $(".menbutt").click(function (e) {
+                $(".meninit." + $(this).attr("dd-menu")).toggle();
+                e.stopPropagation();
+            });
+            $("#job_opt").click(function () {
+                $("#INPUT_8").attr("placeholder", "Find Jobs");
+            });
+            $("#gig_opt").click(function () {
+                $("#INPUT_8").attr("placeholder", "Find Gigs");
+            });
+
+            $("html").click(function (e) {
+                console.log("$(this)");
+                if (!$(e.target).hasClass("_sel1")) {
+                    console.log("Closing menu _sel1");
+                    closeMenu("_sel1");
+                }
+            });
+        });
+    </script>
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <style type="text/css">
+        .auto-style1 {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="AddOrganization.aspx">Organizations</a>
+        <asp:Panel ID="pnlSidebarAdmin" runat="server" Visible="false">
+            <a href="Admin.aspx">Admin</a>
+        </asp:Panel>
+    </div>
+    <div id="main">
+    <form id="form1" runat="server">
+    <div id="header">
+        <table class="auto-style1" style="width: 100%; height: 60px; table-layout: fixed;" border="0">
+            <tr>
+                <td style="width: 5%;">&nbsp;</td>
+                <td style="width: 195px; vertical-align: middle;">
+                    <a href="Default.aspx"><span class="middle"><img src="Images/logo.png" style="height: 35px; width: 182px" />
+                        </span></a>
+                </td>
+                <td style="width: 215px">
+                    <div id="DIV_1">
+                        <span id="SPAN_1" class="_sel1 menbutt" dd-menu="_sel1"></span>
+	                    <asp:TextBox runat="server" type="text" name="q" placeholder="Find Jobs" maxlength="100" id="INPUT_8" />
+                        <div id="dropdown" class="_sel1 meninit" style="display: none; z-index: 100; position: relative;">    
+                            <div id="job_opt" class="drpdwn _sel1">
+                                <img src="Images/jobs.png" style="height: 40px; width: 150px" />
+                            </div>
+                            <div id="gig_opt" class="drpdwn _sel1">
+                                <img src="Images/gigs.png" style="height: 40px; width: 150px" />
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>&nbsp;<a href="http://google.com">Browse</a> <span style="float: right;"> <a href="Default.aspx"> How it works</a>&nbsp;</span></td>
+                <asp:Panel ID="LoggedOutPanel" runat="server">
+                <td><span style="float: right;"><a href="Login.aspx">Sign in</a> or <a href="Register.aspx">Sign up</a></span></td>
+                </asp:Panel>
+                <asp:Panel ID="LoggedInPanel" runat="server" Visible="False">
+                <td><span style="float: right;">Hello, <a href="Profile.aspx"><asp:Label ID="Label1" runat="server" Text="Label"></asp:Label></a>. <a href="javascript:void(0)" onclick="toggleNav();">▼</a>&nbsp;&nbsp;<a href="/Logout.aspx">Log out</a></span></td>
+                </asp:Panel>
+                <td style="width: 5%;">&nbsp;</td>
+            </tr>
+        </table>
+    </div>
+        <div style="width: 100%; height: 20px; display: block;">&nbsp;</div>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+
+    </form>
+    </div>
+    </body>
+</html>
