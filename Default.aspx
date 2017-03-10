@@ -29,5 +29,12 @@
         </h1>
         </div>
     </div>
+    <br />
+    <h2>How to start?</h2>
+    <ol>
+        <li>Start contributing / offer services</li>
+        <li>Earn deedcoins</li>
+        <li>Use your deedcoins to buy other people's services</li>
+    </ol>
 </asp:Content>
 
