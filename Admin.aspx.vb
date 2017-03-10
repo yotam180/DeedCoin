@@ -59,7 +59,7 @@ Partial Class Admin
 
     Public Function GetOrganizations(Optional pagenum As Integer = 1) As String
         Dim builder = New StringBuilder("<table id=""adminTblOrg"" style='width: 100%; table-layout: fixed; border: 2px solid gray;' border='0'>")
-        Using db = New LiteDatabase(Server.MapPath("~/App_Data/Database.accdb") + "; journal=false")
+        Using db = New LiteDatabase(Server.MapPath("~/App_Data/Database.accdb"))
             ' db.DropCollection("Organizations")
             Dim tblOrg = db.GetCollection(Of Organization)("Organizations")
             Dim res = tblOrg.Find(Function(X) True)
