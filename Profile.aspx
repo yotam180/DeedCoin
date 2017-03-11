@@ -53,7 +53,7 @@
                     <asp:Panel ID="pnlCash" runat="server">
                         <div style="width: 100%; text-align: center; border: 1px solid; border-color: lightgray; border-radius: 10px;">
                         <b><asp:Label ID="lblCash" runat="server" Text="Label"></asp:Label></b>
-                        <span style="color: darkslategray; font-size: small; font-family: 'Arial Rounded MT'">&nbsp;&nbsp;&nbsp;$</span>
+                        <span style="color: darkslategray; font-size: small; font-family: 'Arial Rounded MT'">&nbsp;&nbsp;&nbsp;dC</span>
                     </div>
                     </asp:Panel>
                 </td>

@@ -111,7 +111,7 @@ Partial Class AddOrganization
             tblOrg.Update(neworg)
             lblError.Text = "Organization ID : " & neworg.Id
             File.WriteAllBytes(Server.MapPath("~/UserContent/OrganizationImages/_" & neworg.Id & "_" & fileImage.FileName), fileImage.FileBytes)
-            neworg.ImageLoc = "~/UserContent/OrganizationImages/_" & neworg.Id & "_" & fileImage.FileName
+            neworg.ImageLoc = "UserContent/OrganizationImages/_" & neworg.Id & "_" & fileImage.FileName
             tblOrg.Update(neworg)
             Response.Redirect("Default.aspx")
         End Using

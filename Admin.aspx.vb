@@ -64,8 +64,8 @@ Partial Class Admin
             Dim tblOrg = db.GetCollection(Of Organization)("Organizations")
             Dim res = tblOrg.Find(Function(X) True)
             For Each org As Organization In res
-                builder.Append("<tr><td style=""border: 1px dotted gray;""><a href=""/Organization.aspx?org=")
-                builder.Append(org.OrganizationName)
+                builder.Append("<tr><td style=""border: 1px dotted gray;""><a href=""/OrganizationPage.aspx?org=")
+                builder.Append(org.Id)
                 builder.Append(""">")
                 builder.Append(org.OrganizationName)
                 builder.Append("</a><br/><img src='")
@@ -91,7 +91,7 @@ Partial Class Admin
             Else
                 res = tblUsr.Find(exp)
             End If
-            For Each usr As User In res.Skip(Math.Max(0, (pagenum - 1) * 10)).Take(10)
+            For Each usr As User In res.OrderBy(Function(x) 3 - x.UserLevel).ThenBy(Function(x) x.Username).Skip(Math.Max(0, (pagenum - 1) * 10)).Take(10)
                 ' Username + full name column
                 builder.Append("<tr><td style=""border: 1px dotted gray;"">")
                 If usr.UserLevel > 2 Then
