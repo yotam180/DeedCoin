@@ -46,6 +46,9 @@ Public Module DB_Stuff
         Public Property Description As String
         Public Property OwnerID As Integer ' Link User.Id
         Public Property ImageLoc As String
+        Public Property OpeningHours As String
+        Public Property CreationDate As Long
+        Public Property Images As List(Of String)
     End Class
 
     Public Class JobProposal

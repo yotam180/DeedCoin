@@ -1,6 +1,7 @@
-﻿Imports LiteDB
+﻿
+Imports LiteDB
 
-Partial Class ApproveOrg
+Partial Class RejectOrg
     Inherits EliteAdministratorOnly
 
     Public Overrides Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -36,7 +37,7 @@ Partial Class ApproveOrg
         End If
     End Sub
 
-    Public Sub Approve(sender As Object, e As EventArgs) Handles btnApprove.Click
+    Public Sub Approve(sender As Object, e As EventArgs) Handles btnReject.Click
         If Request.QueryString("org") Is Nothing Then
             pnlMain.Visible = False
             pnlNotFound.Visible = True
@@ -60,8 +61,8 @@ Partial Class ApproveOrg
                 Return
             End If
 
-            org.Approved = True
-            org.Rejected = False
+            org.Approved = False
+            org.Rejected = True
             orgTbl.Update(org)
 
             If ViewState("Referrer") Is Nothing Then
@@ -79,5 +80,4 @@ Partial Class ApproveOrg
             Response.Redirect(ViewState("Referrer"))
         End If
     End Sub
-
 End Class

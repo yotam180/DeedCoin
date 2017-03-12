@@ -7,7 +7,7 @@ Partial Class Login
 
     Public Overrides Sub Page_Load(sender As Object, e As EventArgs)
         MyBase.Page_Load(sender, e)
-        If Request.RequestType = "GET" Then
+        If Request.RequestType = "GET" AndAlso Not (Request.UrlReferrer Is Nothing) Then
             ViewState("Referrer") = Request.UrlReferrer.ToString()
         End If
     End Sub

@@ -34,6 +34,28 @@
         }
 
     </style>
+    <script>
+        function getParameterByName(name, url) {
+            if (!url) {
+                url = window.location.href;
+            }
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        function appr()
+        {
+            location.href = "/ApproveOrg.aspx?org=" + getParameterByName("org");
+        }
+
+        function rej() {
+            location.href = "/RejectOrg.aspx?org=" + getParameterByName("org");
+        }
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <asp:Panel ID="pnlUser" runat="server" Visible="true">
@@ -42,7 +64,8 @@
                 <div style="background-color: gold; color: gray; width: 70%; min-height: 50px; margin: 0 auto; vertical-align: middle; border-radius: 10px;">
                     <h2>This organization has not yet been approved.</h2>
                     <asp:Panel ID="pnlApprRej" runat="server" Visible="false">
-                        this is the area where the admins may approve or reject the organization.
+                        <a href="#" style="border-radius: 6px; margin: 3px; background-color: lightgray; color: green" onclick="appr()">Approve</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="#" style="border-radius: 6px; margin: 3px; background-color: lightgray; color: darkred" onclick="rej()">Reject</a>
                     </asp:Panel>
                 </div>
             </div>
@@ -52,7 +75,7 @@
                 <div style="background-color: darkred; color: orange; width: 70%; min-height: 50px; margin: 0 auto; vertical-align: middle; border-radius: 10px;">
                     <h2>This organization has been rejected.</h2>
                     <asp:Panel ID="pnlReAppr" runat="server" Visible="false">
-                        this is the area where the admins may re-approve the organization.
+                        <a href="#" style="border-radius: 6px; margin: 3px; background-color: lightgray; color: green" onclick="appr()">Approve</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     </asp:Panel>
                 </div>
             </div>

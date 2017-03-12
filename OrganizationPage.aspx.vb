@@ -54,7 +54,7 @@ Partial Class OrganizationPage
 
             If Not Session("UserID") Is Nothing AndAlso ((Not owner Is Nothing AndAlso Session("UserID") = owner.Id) OrElse db.GetCollection(Of User)("Users").FindById(Session("UserID")).UserLevel > 1) Then
                 btnEdit.Visible = True
-                If Not (org.Approved AndAlso org.Rejected) Then
+                If Not (org.Approved OrElse org.Rejected) Then
                     pnlApprRej.Visible = True
                 ElseIf org.Rejected Then
                     pnlReAppr.Visible = True
