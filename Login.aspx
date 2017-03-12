@@ -20,6 +20,8 @@
                         <asp:LinkButton ID="btnLogin" runat="server" TabIndex="3">
                             <div class="button_div" style="left: 30%; width: 40%; height: 20px; position: relative;">Login</div>
                         </asp:LinkButton>
+                        <br /><br />
+                        Forgot your password? <a href="RecoverPassword.aspx"> Password Recovery </a>
                     </ContentTemplate>
                 </asp:UpdatePanel>
             </td><td style="width: 20%; text-align: center;"></td>

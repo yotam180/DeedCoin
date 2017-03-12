@@ -240,19 +240,20 @@ Partial Class Register
                 End If
 
 
-                Dim smtp As SmtpClient = New SmtpClient("smtp.gmail.com", 587)
-                smtp.EnableSsl = True
-                smtp.DeliveryMethod = SmtpDeliveryMethod.Network
-                smtp.UseDefaultCredentials = False
-                smtp.Credentials = New NetworkCredential("rodicarogozin@gmail.com", "ROroDIca")
-                Dim msg As MailMessage = New MailMessage(
-                    New MailAddress("rodicarogozin@gmail.com", "DeedCoin"),
-                    New MailAddress(txtEmail.Text)
-                )
-                msg.Subject = "Welcome to DeedCoin!"
-                msg.Body = ProcessEmailMessage(File.ReadAllText(MapPath("App_Data/EmailVerification.txt")), newUser)
-                msg.IsBodyHtml = True
-                smtp.Send(msg)
+                'Dim smtp As SmtpClient = New SmtpClient("smtp.gmail.com", 587)
+                'smtp.EnableSsl = True
+                'smtp.DeliveryMethod = SmtpDeliveryMethod.Network
+                'smtp.UseDefaultCredentials = False
+                'smtp.Credentials = New NetworkCredential("rodicarogozin@gmail.com", "ROroDIca")
+                'Dim msg As MailMessage = New MailMessage(
+                '    New MailAddress("rodicarogozin@gmail.com", "DeedCoin"),
+                '    New MailAddress(txtEmail.Text)
+                ')
+                'msg.Subject = "Welcome to DeedCoin!"
+                'msg.Body = ProcessEmailMessage(File.ReadAllText(MapPath("App_Data/EmailVerification.txt")), newUser)
+                'msg.IsBodyHtml = True
+                'smtp.Send(msg)
+                Notifier.Notify(newUser.Email, ProcessEmailMessage(File.ReadAllText(MapPath("App_Data/EmailVerification.txt")), newUser), "Welcome to DeedCoin!")
 
 
                 Session("Username") = newUser.Username

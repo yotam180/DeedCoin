@@ -2,6 +2,8 @@
 Imports System.IO
 Imports System.Text.RegularExpressions
 Imports NodaTime
+Imports System.Net.Mail
+Imports System.Net
 
 Public Class Utils
     Public Shared Function ExtractCountry(ByVal loc As String) As String
@@ -62,4 +64,30 @@ Public Class Utils
             Return Nothing
         End Try
     End Function
+End Class
+
+
+Public Class Notifier
+    Public Shared Sub Notify(email As String, content As String, subject As String)
+        Dim template = File.ReadAllText(HttpContext.Current.Server.MapPath("~/App_Data/EmailNotificationTemplate.html"))
+        Dim fcontent = template.Replace("{message}", content)
+
+        Dim smtp As SmtpClient = New SmtpClient("smtp.gmail.com", 587)
+        smtp.EnableSsl = True
+        smtp.DeliveryMethod = SmtpDeliveryMethod.Network
+        smtp.UseDefaultCredentials = False
+        smtp.Credentials = New NetworkCredential("rodicarogozin@gmail.com", "ROroDIca")
+        Dim msg As MailMessage = New MailMessage(
+            New MailAddress("rodicarogozin@gmail.com", "DeedCoin"),
+            New MailAddress(email)
+        )
+        msg.Subject = subject
+        msg.Body = fcontent
+        msg.IsBodyHtml = True
+        Try
+            smtp.Send(msg)
+        Catch ex As Exception
+            Return
+        End Try
+    End Sub
 End Class

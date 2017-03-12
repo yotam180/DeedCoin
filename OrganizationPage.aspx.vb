@@ -46,7 +46,7 @@ Partial Class OrganizationPage
 
             Dim owner = db.GetCollection(Of User)("Users").FindById(org.OwnerID)
 
-            If (Not org.Approved) AndAlso (Session("UserID") Is Nothing OrElse (Session("UserID") <> owner.Id AndAlso db.GetCollection(Of User)("Users").FindById(Session("UserID")).UserLevel < 2)) Then
+            If (Not org.Approved) AndAlso (Session("UserID") Is Nothing OrElse (Session("UserID") <> owner.Id AndAlso db.GetCollection(Of User)("Users").FindById(Session("UserID")).UserLevel) < 2) Then
                 pnlUser.Visible = False
                 pnlNotFound.Visible = True
                 Return
