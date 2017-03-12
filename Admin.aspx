@@ -36,7 +36,7 @@
                 <ul>
                     <asp:LinkButton ID="btnMUsers" runat="server"><li>Manage users</li></asp:LinkButton>
                     <asp:LinkButton ID="btnMAdmins" runat="server"><li>Manage admins</li></asp:LinkButton>
-                    <asp:LinkButton ID="btnMOrganization" runat="server"><li>Manage organizations</li></asp:LinkButton>
+                    <asp:LinkButton ID="btnMOrganization" runat="server"><li>Organization approval queue</li></asp:LinkButton>
                 </ul>
             </td>
             <td style="vertical-align: top;">

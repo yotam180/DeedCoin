@@ -37,6 +37,22 @@ Partial Class Admin
         End If
     End Sub
 
+    Public Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
+        Dim i As Integer
+        If Integer.TryParse(txtPageNum.Text, i) Then
+            txtPageNum.Text = (i + 1).ToString()
+            lblOrgs.Text = GetOrganizations(i + 1)
+        End If
+    End Sub
+
+    Public Sub btnPrev_Click(sender As Object, e As EventArgs) Handles btnPrev.Click
+        Dim i As Integer
+        If Integer.TryParse(txtPageNum.Text, i) Then
+            txtPageNum.Text = (Math.Max(1, i - 1)).ToString()
+            lblOrgs.Text = GetOrganizations(Math.Max(1, i - 1))
+        End If
+    End Sub
+
     Public Sub btnPrevUsr_Click(sender As Object, e As EventArgs) Handles btnPrevUsr.Click
         Dim i As Integer
         If Integer.TryParse(txtPageNumUsr.Text, i) Then
@@ -62,7 +78,7 @@ Partial Class Admin
         Using db = New LiteDatabase(Server.MapPath("~/App_Data/Database.accdb"))
             ' db.DropCollection("Organizations")
             Dim tblOrg = db.GetCollection(Of Organization)("Organizations")
-            Dim res = tblOrg.Find(Function(X) True)
+            Dim res = tblOrg.Find(Function(X) (X.Approved = False AndAlso X.Rejected = False)).Skip(10 * (Math.Max(0, pagenum - 1))).Take(10)
             For Each org As Organization In res
                 builder.Append("<tr><td style=""border: 1px dotted gray;""><a href=""/OrganizationPage.aspx?org=")
                 builder.Append(org.Id)

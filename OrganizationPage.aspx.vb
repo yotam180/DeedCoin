@@ -34,9 +34,34 @@ Partial Class OrganizationPage
             lblEXP.Text = org.RequestMonthlyUsers
             lblOpeningHours.Text = "Opening hours - TBI" ' TODO: implement opening hours
             lblOrgName.Text = org.OrganizationName
-            lblSince.Text = db.GetCollection(Of User)("Users").FindById(org.OwnerID).Username ' "Since - TBI" ' TODO: implement since when organization has been operating
+            lblSince.Text = "Since - TBI" ' TODO: implement since when organization has been operating
             lblInteractions.Text = "Successful interactions - TBI" ' TODO: implement interactions & interaction counter
             Image1.ImageUrl = org.ImageLoc
+
+            If org.Rejected Then
+                pnlRejected.Visible = True
+            ElseIf Not org.Approved Then
+                pnlNotApproved.Visible = True
+            End If
+
+            Dim owner = db.GetCollection(Of User)("Users").FindById(org.OwnerID)
+
+            If (Not org.Approved) AndAlso (Session("UserID") Is Nothing OrElse (Session("UserID") <> owner.Id AndAlso db.GetCollection(Of User)("Users").FindById(Session("UserID")).UserLevel < 2)) Then
+                pnlUser.Visible = False
+                pnlNotFound.Visible = True
+                Return
+            End If
+
+            If Not Session("UserID") Is Nothing AndAlso ((Not owner Is Nothing AndAlso Session("UserID") = owner.Id) OrElse db.GetCollection(Of User)("Users").FindById(Session("UserID")).UserLevel > 1) Then
+                btnEdit.Visible = True
+                If Not (org.Approved AndAlso org.Rejected) Then
+                    pnlApprRej.Visible = True
+                ElseIf org.Rejected Then
+                    pnlReAppr.Visible = True
+                End If
+            Else
+                btnEdit.Visible = False
+            End If
         End Using
 
     End Sub

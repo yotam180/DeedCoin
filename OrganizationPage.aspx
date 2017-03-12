@@ -37,6 +37,26 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <asp:Panel ID="pnlUser" runat="server" Visible="true">
+        <asp:Panel ID="pnlNotApproved" runat="server" Visible ="false">
+            <div style="width: 100vw; text-align: center;">
+                <div style="background-color: gold; color: gray; width: 70%; min-height: 50px; margin: 0 auto; vertical-align: middle; border-radius: 10px;">
+                    <h2>This organization has not yet been approved.</h2>
+                    <asp:Panel ID="pnlApprRej" runat="server" Visible="false">
+                        this is the area where the admins may approve or reject the organization.
+                    </asp:Panel>
+                </div>
+            </div>
+        </asp:Panel>
+        <asp:Panel ID="pnlRejected" runat="server" Visible ="false">
+            <div style="width: 100vw; text-align: center;">
+                <div style="background-color: darkred; color: orange; width: 70%; min-height: 50px; margin: 0 auto; vertical-align: middle; border-radius: 10px;">
+                    <h2>This organization has been rejected.</h2>
+                    <asp:Panel ID="pnlReAppr" runat="server" Visible="false">
+                        this is the area where the admins may re-approve the organization.
+                    </asp:Panel>
+                </div>
+            </div>
+        </asp:Panel>
         <table style="width: 100%; min-height: 100px; table-layout: fixed;" border="0" cellpadding="10">
             <tr>
                 <td style="width: 15%;"></td>
