@@ -89,7 +89,9 @@ Partial Class PurchasePage
                     Return
                 End If
                 payer.DeedCoins -= buy.Transfer
+                payer.Exp += buy.Transfer
                 seller.DeedCoins += buy.Transfer
+                seller.Exp += buy.Transfer * rate
                 usrTbl.Update(payer)
                 usrTbl.Update(seller)
                 buy.HasBeenPaid = True

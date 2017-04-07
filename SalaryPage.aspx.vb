@@ -93,6 +93,7 @@ Partial Class SalaryPage
                 End If
                 payer.Points -= buy.Transfer
                 worker.DeedCoins += buy.Transfer
+                worker.Exp += buy.Transfer
                 orgTbl.Update(payer)
                 usrTbl.Update(worker)
                 buy.HasBeenPaid = True

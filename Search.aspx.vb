@@ -45,9 +45,9 @@ Partial Class Search
             If cat = "jobs" Then
                 c4 = "skyblue"
                 Dim tbl = db.GetCollection(Of JobProposal)("Proposals")
-                Dim src = tbl.FindAll()
+                Dim src = tbl.FindAll().Where(Function(x) (Not x.Disabled) AndAlso x.Type = GigType.OfferJob)
                 If q <> "" Then
-                    src = src.Where(Function(x) (Not x.Disabled) AndAlso x.Type = GigType.OfferJob AndAlso Relevancy(q, String.Format("{0} {1} {2}", x.Title, x.ShortDescription, x.Description)) > 0).OrderByDescending(Function(x) Relevancy(q, String.Format("{0} {1} {2}", x.Title, x.ShortDescription, x.Description))).ThenBy(Function(x) x.Title)
+                    src = src.Where(Function(x) Relevancy(q, String.Format("{0} {1} {2}", x.Title, x.ShortDescription, x.Description)) > 0).OrderByDescending(Function(x) Relevancy(q, String.Format("{0} {1} {2}", x.Title, x.ShortDescription, x.Description))).ThenBy(Function(x) x.Title)
                 End If
                 For Each res In src
                     lblRes.Text &= RowOf(Null(Null(res.ImageURLs, New String() {"~/Images/profile.jpg"})(0), "~/Images/profile.jpg"), res.Title, res.ShortDescription, "JobPage.aspx?job=" & res.Id)
@@ -55,9 +55,9 @@ Partial Class Search
             ElseIf cat = "gigs" Then
                 c3 = "skyblue"
                 Dim tbl = db.GetCollection(Of JobProposal)("Proposals")
-                Dim src = tbl.FindAll()
+                Dim src = tbl.FindAll().Where(Function(x) (Not x.Disabled) AndAlso x.Type = GigType.OfferProduct)
                 If q <> "" Then
-                    src = src.Where(Function(x) (Not x.Disabled) AndAlso x.Type = GigType.OfferProduct AndAlso Relevancy(q, String.Format("{0} {1} {2}", x.Title, x.ShortDescription, x.Description)) > 0).OrderByDescending(Function(x) Relevancy(q, String.Format("{0} {1} {2}", x.Title, x.ShortDescription, x.Description))).ThenBy(Function(x) x.Title)
+                    src = src.Where(Function(x) Relevancy(q, String.Format("{0} {1} {2}", x.Title, x.ShortDescription, x.Description)) > 0).OrderByDescending(Function(x) Relevancy(q, String.Format("{0} {1} {2}", x.Title, x.ShortDescription, x.Description))).ThenBy(Function(x) x.Title)
                 End If
                 For Each res In src
                     lblRes.Text &= RowOf(Null(Null(res.ImageURLs, New String() {"~/Images/profile.jpg"})(0), "~/Images/profile.jpg"), res.Title, res.ShortDescription, "GigPage.aspx?gig=" & res.Id)

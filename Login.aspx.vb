@@ -22,7 +22,7 @@ Partial Class Login
                 usr.LastLogin = SystemClock.Instance.Now.Ticks
                 tbl.Update(usr)
                 If ViewState("Referrer") Is Nothing Then
-                    Response.Redirect("/Default.aspx")
+                    Response.Redirect("/MyZone.aspx")
                 Else
                     Response.Redirect(ViewState("Referrer").ToString())
                 End If

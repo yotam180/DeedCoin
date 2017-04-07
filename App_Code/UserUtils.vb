@@ -77,7 +77,7 @@ Public Class UserUtils
 
     Public Shared Sub LoggedOutOnly(Response As HttpResponse, Session As HttpSessionState)
         If Not Session("UserID") Is Nothing Then
-            Response.Redirect("/Default.aspx") ' TODO: Redirect to user panel or something
+            Response.Redirect("/MyZone.aspx") ' TODO: Redirect to user panel or something
         End If
     End Sub
 End Class
