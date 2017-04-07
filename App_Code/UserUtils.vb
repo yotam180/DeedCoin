@@ -82,7 +82,7 @@ Public Class UserUtils
     End Sub
 End Class
 
-Public Class LoggedUsersOnly
+Public Class LoggedInUsersOnly
     Inherits Page
     Public Overridable Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         UserUtils.LoggedInOnly(Response, Session)

@@ -3,7 +3,7 @@ Imports System.Drawing
 
 
 Partial Class UpdateProfile
-    Inherits LoggedUsersOnly
+    Inherits LoggedInUsersOnly
 
     Public Address As GeoPos
 
@@ -13,6 +13,9 @@ Partial Class UpdateProfile
             Using db As LiteDatabase = New LiteDatabase(Server.MapPath("~/App_Data/Database.accdb"))
                 Dim tblUsers As LiteCollection(Of User) = db.GetCollection(Of User)("Users")
                 Dim user As User = tblUsers.FindById(Integer.Parse(Session("UserID")))
+                If user.UserLevel < UserType.Administrator Then
+                    txtCoins.Enabled = False
+                End If
                 If Request.QueryString("user") <> Session("Usrname") Then
                     If user.UserLevel < 2 Then
                         Response.Redirect("/UpdateProfile.aspx")
@@ -28,6 +31,7 @@ Partial Class UpdateProfile
                     End If
                 End If
                 txtUsername.Text = user.Username
+                txtCoins.Text = user.DeedCoins
                 txtUsername.Enabled = False
                 txtFirstName.Text = user.FirstName
                 txtLastName.Text = user.LastName
@@ -82,6 +86,10 @@ Partial Class UpdateProfile
                 user.Position = Address
                 user.Location = txtAddress.Text
                 user.Country = Utils.ExtractCountry(user.Position.Address)
+            End If
+            Dim dc As Integer
+            If Integer.TryParse(txtCoins.Text, dc) Then
+                user.DeedCoins = dc
             End If
             tblUsers.Update(user)
             Response.Redirect("/Profile.aspx?user=" & txtUsername.Text)

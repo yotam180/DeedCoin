@@ -120,7 +120,7 @@
                                 <asp:Label ID="lblAddress" runat="server" Text="Label"></asp:Label><br />
 
                                 <span class="icon" id="icon_memfor"></span>
-                                <asp:Label ID="lblSince" runat="server" Text="Label"></asp:Label><br />
+                                <asp:Label ID="lblAudience" runat="server" Text="Label"></asp:Label><br />
 
                                 <span class="icon" id="icon_profileviews"></span>
                                 <asp:Label ID="lblInteractions" runat="server" Text="Label"></asp:Label><br />

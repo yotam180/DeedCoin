@@ -37,13 +37,15 @@
                         <br />
                         <asp:TextBox placeholder="Last Name" CssClass="large_txt" style="font-size: 17px;" ID="txtLastName" runat="server" Width="70%" Font-Bold="True" AutoPostBack="True" TextMode="SingleLine" TabIndex="4"></asp:TextBox>
                         <br />
-                        <asp:TextBox placeholder="Email" CssClass="large_txt" style="font-size: 17px;" ID="txtEmail" runat="server" Width="70%" Font-Bold="True" AutoPostBack="True" TextMode="Email" TabIndex="4"></asp:TextBox>
+                        <asp:TextBox placeholder="Cash" CssClass="large_txt" style="font-size: 17px;" ID="txtCoins" runat="server" Width="70%" Font-Bold="True" AutoPostBack="True" TextMode="SingleLine" TabIndex="4"></asp:TextBox>
+                        <br />
+                        <asp:TextBox placeholder="Email" CssClass="large_txt" style="font-size: 17px;" ID="txtEmail" runat="server" Width="70%" Font-Bold="True" AutoPostBack="True"  TabIndex="4"></asp:TextBox>
                         <br />
                         <asp:TextBox placeholder="About you... (Where do you live, what do you like, what are your interests?)" CssClass="large_txt aboutTxt" style="font-size: 17px;" ID="txtAbout" runat="server" Width="70%" Height="93px" TextMode="MultiLine" Font-Bold="True" AutoPostBack="True" TabIndex="5"></asp:TextBox>
                         <br />
                         <p id="lblCharCount" style="display: none; color: black;"></p>
                         <br />
-                        <asp:TextBox placeholder="Address/Location (ex. HaZafon, Israel)" CssClass="large_txt" style="font-size: 17px;" ID="txtAddress" runat="server" Width="70%" Font-Bold="True" AutoPostBack="True" TextMode="Email" TabIndex="6"></asp:TextBox>
+                        <asp:TextBox placeholder="Address/Location (ex. HaZafon, Israel)" CssClass="large_txt" style="font-size: 17px;" ID="txtAddress" runat="server" Width="70%" Font-Bold="True" AutoPostBack="True"  TabIndex="6"></asp:TextBox>
                         <br />
                         <asp:Label runat="server" ID="lblAddress" Visible="False"></asp:Label>
                     </ContentTemplate>

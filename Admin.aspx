@@ -5,8 +5,22 @@
         #adminTbl td {
             border: 1px dotted gray;
         }
+        .radioButtonList { list-style:none; margin: 0; padding: 0;}
+        .radioButtonList.horizontal li { display: inline;}
+
+        .radioButtonList label{
+            display:inline;
+        }
     </style>
     <script>
+        function appr(id)
+        {
+            location.href = "ApproveOrg.aspx?org=" + id;
+        }
+        function rej(id) {
+            location.href = "RejectOrg.aspx?org=" + id;
+        }
+
         function setMod(id) {
             var sel = document.getElementById(id);
             $.ajax({
@@ -36,7 +50,7 @@
                 <ul>
                     <asp:LinkButton ID="btnMUsers" runat="server"><li>Manage users</li></asp:LinkButton>
                     <asp:LinkButton ID="btnMAdmins" runat="server"><li>Manage admins</li></asp:LinkButton>
-                    <asp:LinkButton ID="btnMOrganization" runat="server"><li>Organization approval queue</li></asp:LinkButton>
+                    <asp:LinkButton ID="btnMOrganization" runat="server"><li>Manage organizations</li></asp:LinkButton>
                 </ul>
             </td>
             <td style="vertical-align: top;">
@@ -54,6 +68,25 @@
                         </div>
                     </asp:Panel>
                     <asp:Panel ID="pnlOrganizations" runat="server" Visible="false">
+                        <div style="width: 100%; text-align: center;">
+                            <asp:Button ID="btnOrgQueue" runat="server" Text="Organization approval queue" />
+                            <asp:Button ID="btnAllOrg" runat="server" Text="Organizations list" />
+                            <asp:Button ID="btnActiveOrg" runat="server" Text="Active organizations list" />
+                            <asp:Button ID="btnRejectedOrg" runat="server" Text="Rejected Organizations list" />
+                            <br />
+                            <asp:TextBox ID="txtSearch" runat="server" placeholder="Search text"></asp:TextBox>
+                            <asp:Button ID="btnSearchName" runat="server" Text="Search by name" />
+                            <br />
+                            <asp:RadioButtonList ID="radioSort" EnableViewState="true" runat="server" CssClass="radioButtonList" RepeatDirection="Horizontal" AutoPostBack="True">
+                                
+                                <asp:ListItem Selected="True" Value="OrganizationName">A-&gt;Z &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</asp:ListItem>
+                                <asp:ListItem Value="*OrganizationName">Z-&gt;A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</asp:ListItem>
+                                <asp:ListItem Value="*CreationDate">New-&gt;Old&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</asp:ListItem>
+                                <asp:ListItem Value="CreationDate">Old-&gt;New&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</asp:ListItem>
+                                <asp:ListItem Value="MonthlyPoints">Monthly budget&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</asp:ListItem>
+                                <asp:ListItem Value="*MonthlyPoints">Monthly budget descending&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</asp:ListItem>
+                            </asp:RadioButtonList>
+                        </div>
                         <div style="width: 100%; min-height: 30px; background-color: antiquewhite;">
                             <asp:Label ID="lblOrgs" runat="server"></asp:Label>
                             <br />

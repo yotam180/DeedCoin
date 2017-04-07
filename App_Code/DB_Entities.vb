@@ -49,12 +49,16 @@ Public Module DB_Stuff
         Public Property OpeningHours As String
         Public Property CreationDate As Long
         Public Property Images As List(Of String)
+        Public Property Audience As String
+        Public Property LastUpdatedMonth As Integer = 0
+        Public Property LastUpdatedYear As Integer = 0
     End Class
 
     Public Class JobProposal
         <BsonId>
         Public Property Id As Integer
         Public Property Title As String
+        Public Property ShortDescription As String
         Public Property Offerer As Integer? ' Link User.Id
         Public Property OffererOrg As Integer? ' Link Organization.Id
         Public Property Type As GigType
@@ -74,17 +78,18 @@ Public Module DB_Stuff
         Public Property HasBeenPaid As Boolean
         Public Property PaymentDate As Long
         Public Property Rating As Integer
+        Public Property Proposal As Integer
     End Class
 
-    Public Class Comment
-        <BsonId>
-        Public Property Id As Integer
-        Public Property Writer As Integer ' Link User.Id
-        Public Property ProposalId As Integer ' Link JobProposal.Id
-        Public Property Content As String
-        Public Property WriteDate As Long
-        Public Property ParentComment As Integer? ' Link Comment.Id
-    End Class
+    'Public Class Comment
+    '    <BsonId>
+    '    Public Property Id             As Integer
+    '    Public Property Writer         As Integer ' Link User.Id
+    '    Public Property ProposalId     As Integer ' Link JobProposal.Id
+    '    Public Property Content        As String
+    '    Public Property WriteDate      As Long
+    '    Public Property ParentComment  As Integer? ' Link Comment.Id
+    'End Class
 
     Public Class Message
         <BsonId>

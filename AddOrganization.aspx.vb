@@ -85,11 +85,17 @@ Partial Class AddOrganization
         If Not fileImage.HasFile Then
             lblError.Text &= "You must upload an organization image/logo <br/>"
         End If
+        Dim requestMonthlyUsers As Integer
+        If Not Integer.TryParse(txtMonthlyUsers.Text, requestMonthlyUsers) Then
+            lblError.Text &= "Monthly users must be a parsable number.<br/>"
+        End If
 
         If lblError.Text <> "" Then
             lblError.Visible = True
             Return
         End If
+
+       
 
         Using db As LiteDatabase = New LiteDatabase(Server.MapPath("~/App_Data/Database.accdb"))
             Dim tblOrg = db.GetCollection(Of Organization)("Organizations")
@@ -105,7 +111,7 @@ Partial Class AddOrganization
                 .OwnerID = Session("UserID"),
                 .Points = 0,
                 .Rejected = False,
-                .RequestMonthlyUsers = Integer.Parse(txtMonthlyUsers.Text)
+                .RequestMonthlyUsers = requestMonthlyUsers
             }
             tblOrg.Insert(neworg)
             tblOrg.Update(neworg)
