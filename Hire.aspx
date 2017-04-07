@@ -9,7 +9,7 @@
 </asp:content>
 <asp:Content ID="body" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <h2>Are you sure you want to hire to <u><asp:Label ID="lblName" Text="placehold" runat="server"></asp:Label></u> for <u><asp:Label ID="lblPrice" runat="server"></asp:Label></u> dC?</h2>
-    <asp:LinkButton ID="btnBuy" runat="server"><div id="divBuy" style="margin: auto; height: 30px; width: 100px; font-size: 20px; background-color: darkseagreen; color: black; padding: 10px; border-radius: 5px;">Buy!</div></asp:LinkButton>
+    <asp:LinkButton ID="btnBuy" runat="server"><div id="divBuy" style="margin: auto; height: 30px; width: 100px; font-size: 20px; background-color: darkseagreen; color: black; padding: 10px; border-radius: 5px;">Hire!</div></asp:LinkButton>
     <br /><br />
     <asp:LinkButton ID="btnCancel" runat="server"><div id="divCancel" style="margin: auto; height: 30px; width: 100px; font-size: 20px; background-color: indianred; color: black; padding: 10px; border-radius: 5px;">No.</div></asp:LinkButton>
 </asp:Content>

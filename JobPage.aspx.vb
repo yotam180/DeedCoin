@@ -19,7 +19,7 @@ Partial Class JobPage
                 End If
 
                 Dim gig = gigTbl.FindById(gigId)
-                If gig Is Nothing Then
+                If gig Is Nothing OrElse gig.Disabled Then
                     pnlNotFound.Visible = True
                     pnlUser.Visible = False
                     Return

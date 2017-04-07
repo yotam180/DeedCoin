@@ -28,7 +28,9 @@ Partial Class OrganizationPage
             End If
 
             If DateTime.Now.Year <> org.LastUpdatedYear OrElse DateTime.Now.Month <> org.LastUpdatedMonth Then
-                org.Points = org.MonthlyPoints
+                org.Points = org.MonthlyPoints + 1
+                org.LastUpdatedMonth = DateTime.Now.Month
+                org.LastUpdatedYear = DateTime.Now.Year
                 orgTbl.Update(org)
             End If
 

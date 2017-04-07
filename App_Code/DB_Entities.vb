@@ -66,6 +66,7 @@ Public Module DB_Stuff
         Public Property Description As String
         Public Property VideoURL As String
         Public Property ImageURLs As String()
+        Public Property Disabled As Boolean = False
     End Class
 
     Public Class Purchase

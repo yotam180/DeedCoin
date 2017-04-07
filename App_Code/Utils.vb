@@ -6,7 +6,35 @@ Imports System.Net.Mail
 Imports System.Net
 Imports System.Runtime.CompilerServices
 
-Module StrUtil
+Public Module StrUtil
+
+    Public Function Relevancy(s As String, d As String) As Integer
+        Dim dwrds = d.Split(New Char() {" "}, StringSplitOptions.RemoveEmptyEntries).Select(Function(x) x.ToUpper()).Distinct()
+        Dim swrds = s.Split(New Char() {" "}, StringSplitOptions.RemoveEmptyEntries).Select(Function(x) x.ToUpper()).Distinct()
+        Dim pts = 0
+        For Each word In dwrds
+            For Each sword In swrds
+                If sword = word Then
+                    pts += 30
+                Else
+                    Dim distance = word.DistanceTo(sword)
+                    If distance < 5 Then
+                        pts += 10 - distance
+                    End If
+                End If
+            Next
+        Next
+        Return pts
+    End Function
+
+    Public Function Null(Of T)(def As T, alt As T) As T
+        If def Is Nothing Then
+            Return alt
+        Else
+            Return def
+        End If
+    End Function
+
     <Extension()>
     Public Function DistanceTo(s As String, t As String) As Integer ' TODO: check if right.
         Dim n As Integer = s.Length
