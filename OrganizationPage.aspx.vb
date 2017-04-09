@@ -39,14 +39,19 @@ Partial Class OrganizationPage
 
             Dim interactions = buyTbl.FindAll().Select(Function(x) New Tuple(Of Purchase, JobProposal)(x, gigTbl.FindById(x.Proposal))).Where(Function(x) x.Item2.Type = GigType.OfferJob AndAlso x.Item2.OffererOrg = org.Id)
             Dim interactionsNum = interactions.Where(Function(x) x.Item1.HasBeenDelivered AndAlso x.Item1.HasBeenPaid).Count
+            Dim inn = interactions.Count
             Dim rating As Decimal = 0.0
             For Each i In interactions
                 If i.Item1.Rating < 1 Then
-                    interactionsNum -= 1
+                    inn -= 1
                 End If
                 rating += i.Item1.Rating
             Next
-            rating /= interactionsNum
+            If inn = 0 Then
+                rating = 0
+            Else
+                rating /= interactionsNum
+            End If
 
             Dim pipeline = New MarkdownPipelineBuilder().UseAdvancedExtensions().Build()
             lblAbout.Text = Markdown.ToHtml(org.Description, pipeline)
