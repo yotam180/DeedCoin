@@ -6,6 +6,8 @@ Imports System.Net.Mail
 Imports System.Net
 Imports System.Runtime.CompilerServices
 Imports LiteDB
+Imports SendGrid
+Imports SendGrid.Helpers.Mail
 
 Public Module StrUtil
 
@@ -156,23 +158,27 @@ Public Class Notifier
         Dim template = File.ReadAllText(HttpContext.Current.Server.MapPath("~/App_Data/EmailNotificationTemplate.html"))
         Dim fcontent = template.Replace("{message}", content)
 
-        Dim smtp As SmtpClient = New SmtpClient("smtp.gmail.com", 587)
-        smtp.EnableSsl = True
-        smtp.DeliveryMethod = SmtpDeliveryMethod.Network
-        smtp.UseDefaultCredentials = False
-        smtp.Credentials = New NetworkCredential("rodicarogozin@gmail.com", "ROroDIca")
-        Dim msg As MailMessage = New MailMessage(
-            New MailAddress("rodicarogozin@gmail.com", "DeedCoin"),
-            New MailAddress(email)
-        )
-        msg.Subject = subject
-        msg.Body = fcontent
-        msg.IsBodyHtml = True
-        Try
-            smtp.Send(msg)
-        Catch ex As Exception
-            Return
-        End Try
+        'Dim smtp As SmtpClient = New SmtpClient("smtp.gmail.com", 587)
+        'smtp.EnableSsl = True
+        'smtp.DeliveryMethod = SmtpDeliveryMethod.Network
+        'smtp.UseDefaultCredentials = False
+        'smtp.Credentials = New NetworkCredential("rodicarogozin@gmail.com", "ROroDIca")
+        'Dim msg As MailMessage = New MailMessage(
+        '    New MailAddress("rodicarogozin@gmail.com", "DeedCoin"),
+        '    New MailAddress(email)
+        ')
+        'msg.Subject = subject
+        'msg.Body = fcontent
+        'msg.IsBodyHtml = True
+        Dim msg = New SendGridMessage
+        msg.SetFrom(New EmailAddress("noreply@deedcoin.net", "DeedCoin"))
+        Dim recipients = New List(Of EmailAddress)
+        msg.AddTo(New EmailAddress(email))
+        msg.SetSubject(subject)
+        msg.AddContent(MimeType.Html, fcontent)
+
+        Dim client = New SendGridClient(Environment.GetEnvironmentVariable("EMAIL_API"))
+        client.SendEmailAsync(msg)
     End Sub
 
     Public Shared Sub Notify(user As Integer, msg As String, link As String, img As String)
