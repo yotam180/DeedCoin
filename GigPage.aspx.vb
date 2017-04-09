@@ -1,8 +1,11 @@
-﻿Imports LiteDB
+﻿Imports System.Globalization
+Imports LiteDB
 Imports Markdig
 
 Partial Class GigPage
     Inherits System.Web.UI.Page
+
+    Public gid As String
 
     Public Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         Using db = New LiteDatabase(Server.MapPath("~/App_Data/Database.accdb"))
@@ -10,6 +13,7 @@ Partial Class GigPage
                 Dim gigTbl = db.GetCollection(Of JobProposal)("Proposals")
                 Dim usrTbl = db.GetCollection(Of User)("Users")
                 Dim buyTbl = db.GetCollection(Of Purchase)("Purchases")
+                Dim cmtTbl = db.GetCollection(Of Comment)("Comments")
                 Dim gigId As Integer
                 If Request.QueryString("gig") Is Nothing OrElse Not Integer.TryParse(Request.QueryString("gig"), gigId) Then
                     pnlNotFound.Visible = True
@@ -36,6 +40,7 @@ Partial Class GigPage
                 Else
                     Image1.ImageUrl = offerer.ProfilePic
                 End If
+                gid = gig.Id
                 lblShortDesc.Text = gig.ShortDescription
                 Dim pipeline = New MarkdownPipelineBuilder().UseAdvancedExtensions().Build()
                 lblAbout.Text = Markdown.ToHtml(gig.Description, pipeline)
@@ -56,11 +61,21 @@ Partial Class GigPage
                     btnEdit.Visible = False
                 End If
 
+                If Session("UserID") Is Nothing Then
+                    pnlAddComment.Visible = False
+                End If
+
                 If Session("UserID") IsNot Nothing AndAlso Session("UserID") <> (gig.Offerer) AndAlso usrTbl.FindById(New BsonValue(Session("UserID"))).DeedCoins > gig.Price Then
                     btnBuy.Visible = True
                 Else
                     btnBuy.Visible = False
                 End If
+
+                Dim comments = cmtTbl.Find(Function(x) x.ProposalId = gig.Id).OrderByDescending(Function(x) x.WriteDate)
+                For Each cmt In comments
+                    Dim writer = usrTbl.FindById(cmt.Writer)
+                    lblComments.Text &= String.Format("<div style='display: inline-block; width: 80%; border: 3px solid gray; border-radius: 10px; padding: 10px; min-height: 50px; background-color: whitesmoke; text-align: left;'><h3><a href='{0}'>{1} {2}</a> says...&nbsp;&nbsp;&nbsp;&nbsp;<span style='font-size: smaller; color: gray'>{3}</span></h3>{4}</div>", writer.Username, writer.FirstName, writer.LastName, New NodaTime.Instant(cmt.WriteDate).ToString("MM/dd/yyyy hh:mm", CultureInfo.CurrentCulture), cmt.Content)
+                Next
 
             Catch Exx As Exception
                 Utils.Alert("Problem with loading page.")

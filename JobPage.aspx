@@ -89,6 +89,15 @@
         <div style="width: 100%; text-align: center;">
             <h1>Images</h1>
             <asp:Label ID="lblImages" runat="server"></asp:Label>
+            <h2>Comments</h2>
+            <div style="width: 100%; text-align: center;">
+            <asp:Label ID="lblComments" runat="server"></asp:Label>
+            </div>
+            <br /><br /><br />
+            <asp:Panel ID="pnlAddComment" runat="server">
+            <a href="AddComment.aspx?id=<%=gid %>"><h4>Add comment</h4></a>
+            <br />
+            </asp:Panel>
         </div>
     </asp:Panel>
     <asp:Panel ID="pnlNotFound" runat="server" Visible="false">

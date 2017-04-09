@@ -48,7 +48,7 @@ Partial Class Search
                     src = src.Where(Function(x) Relevancy(q, String.Format("{0} {1} {2}", x.Title, x.ShortDescription, x.Description)) > 0).OrderByDescending(Function(x) Relevancy(q, String.Format("{0} {1} {2}", x.Title, x.ShortDescription, x.Description))).ThenBy(Function(x) x.Title)
                 End If
                 For Each res In src
-                    lblRes.Text &= RowOf(Null(Null(res.ImageURLs, New String() {"~/Images/profile.jpg"})(0), "~/Images/profile.jpg"), res.Title, res.ShortDescription, "JobPage.aspx?job=" & res.Id)
+                    lblRes.Text &= RowOf(Null(Null(res.ImageURLs, New String() {"~/Images/profile.jpg"})(0), "~/Images/profile.jpg"), res.Title & " (" & res.Price & " dC)", res.ShortDescription, "JobPage.aspx?job=" & res.Id)
                 Next
             ElseIf cat = "gigs" Then
                 c3 = "skyblue"
@@ -58,7 +58,7 @@ Partial Class Search
                     src = src.Where(Function(x) Relevancy(q, String.Format("{0} {1} {2}", x.Title, x.ShortDescription, x.Description)) > 0).OrderByDescending(Function(x) Relevancy(q, String.Format("{0} {1} {2}", x.Title, x.ShortDescription, x.Description))).ThenBy(Function(x) x.Title)
                 End If
                 For Each res In src
-                    lblRes.Text &= RowOf(Null(Null(res.ImageURLs, New String() {"~/Images/profile.jpg"})(0), "~/Images/profile.jpg"), res.Title, res.ShortDescription, "GigPage.aspx?gig=" & res.Id)
+                    lblRes.Text &= RowOf(Null(Null(res.ImageURLs, New String() {"~/Images/profile.jpg"})(0), "~/Images/profile.jpg"), res.Title & " (" & res.Price & " dC)", res.ShortDescription, "GigPage.aspx?gig=" & res.Id)
                 Next
             ElseIf cat = "orgs" Then
                 c2 = "skyblue"
