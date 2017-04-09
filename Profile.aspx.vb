@@ -16,7 +16,9 @@ Partial Class Profile
             username = "yotam180"
         End If
         Using db As LiteDatabase = New LiteDatabase(Server.MapPath("~/App_Data/Database.accdb"))
-            Dim tblUsers As LiteCollection(Of User) = db.GetCollection(Of User)("Users")
+            Dim tblUsers = db.GetCollection(Of User)("Users")
+            Dim buyTbl = db.GetCollection(Of Purchase)("Purchases")
+            Dim gigTbl = db.GetCollection(Of JobProposal)("Proposals")
             Dim users As IEnumerable(Of User) = tblUsers.Find(Function(x) x.Username.Equals(username))
             If users.Count() = 0 Then
                 pnlUser.Visible = False
@@ -29,6 +31,22 @@ Partial Class Profile
                 user.ProfileViews += 1
                 user.LastProfileViewer = Session("UserID")
                 tblUsers.Update(user)
+            End If
+
+            Dim interactions = buyTbl.FindAll().Select(Function(x) New Tuple(Of Purchase, JobProposal)(x, gigTbl.FindById(x.Proposal))).Where(Function(x) x.Item2.Type = GigType.OfferProduct AndAlso x.Item2.Offerer = user.Id)
+            Dim interactionsNum = interactions.Where(Function(x) x.Item1.HasBeenDelivered AndAlso x.Item1.HasBeenPaid).Count
+            Dim inn = interactions.Count
+            Dim rating As Decimal = 0.0
+            For Each i In interactions
+                If i.Item1.Rating < 1 Then
+                    inn -= 1
+                End If
+                rating += i.Item1.Rating
+            Next
+            If inn = 0 Then
+                rating = 0
+            Else
+                rating = rating / inn
             End If
 
             ''''''''''''''''''''''''''''''''''''''''''' Now let's do the cool stuff 8D
@@ -44,6 +62,8 @@ Partial Class Profile
             lblAbout.Text = Markdown.ToHtml(user.Description, pipeline)
             lblCountry.Text = user.Country
             lblProfileViews.Text = user.ProfileViews & " profile view" & Utils.Tenrary(user.ProfileViews = 1, "", "s")
+            lblRating.Text = rating & "&nbsp;&nbsp; <span style=""color: gold"">" & New String("★", Math.Ceiling(rating))
+
 
             Dim memfor As Period = Period.Between(New Instant(user.JoinDate).InUtc().LocalDateTime, SystemClock.Instance.Now.InUtc().LocalDateTime, PeriodUnits.AllDateUnits Or PeriodUnits.AllTimeUnits)
             Dim memforstr As String = Utils.StringifyPeriod(memfor)

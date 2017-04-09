@@ -41,8 +41,12 @@ Partial Class OrganizationPage
             Dim interactionsNum = interactions.Where(Function(x) x.Item1.HasBeenDelivered AndAlso x.Item1.HasBeenPaid).Count
             Dim rating As Decimal = 0.0
             For Each i In interactions
+                If i.Item1.Rating < 1 Then
+                    interactionsNum -= 1
+                End If
                 rating += i.Item1.Rating
             Next
+            rating /= interactionsNum
 
             Dim pipeline = New MarkdownPipelineBuilder().UseAdvancedExtensions().Build()
             lblAbout.Text = Markdown.ToHtml(org.Description, pipeline)

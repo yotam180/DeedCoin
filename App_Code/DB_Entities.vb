@@ -82,15 +82,14 @@ Public Module DB_Stuff
         Public Property Proposal As Integer
     End Class
 
-    'Public Class Comment
-    '    <BsonId>
-    '    Public Property Id             As Integer
-    '    Public Property Writer         As Integer ' Link User.Id
-    '    Public Property ProposalId     As Integer ' Link JobProposal.Id
-    '    Public Property Content        As String
-    '    Public Property WriteDate      As Long
-    '    Public Property ParentComment  As Integer? ' Link Comment.Id
-    'End Class
+    Public Class Comment
+        <BsonId>
+        Public Property Id As Integer
+        Public Property Writer As Integer ' Link User.Id
+        Public Property ProposalId As Integer ' Link JobProposal.Id
+        Public Property Content As String
+        Public Property WriteDate As Long
+    End Class
 
     Public Class Notification
         <BsonId>
