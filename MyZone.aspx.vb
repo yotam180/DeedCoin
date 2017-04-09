@@ -68,13 +68,12 @@ Partial Class MyZone
             Else
                 lblJobs.Text = "<table style='width: 100%; table-layout: fixed' border='1'>"
                 For Each o In jobs
-                    If o.Buyer = usr.Id Then
-                        Dim gigo = gigTbl.FindById(o.Proposal)
+                    Dim gigo = gigTbl.FindById(o.Proposal)
+                    If gigo.Type = GigType.OfferJob Then
                         Dim orgo = orgTbl.FindById(New BsonValue(gigo.OffererOrg))
                         lblJobs.Text &= String.Format("<tr style='background-color: {7}'><td style='width: 20%;'><img src='{0}' style='width: 100%; height: auto;' /></td><td style='text-align: left; font-size: smaller;'><span style='color: gray;'>0x{5} </span> You hired to <a href='SalaryPage.aspx?deal={1}'><strong>{2}</strong></a> for <a href='OrganizationPage.aspx?org={3}'><strong>{4}</strong></a> at {6} </td></tr>",
                                                         Null(gigo.ImageURLs, New String() {usr.ProfilePic})(0), o.Id, gigo.Title, orgo.Id, orgo.OrganizationName, o.Id.ToString("X"), New NodaTime.Instant(o.PurchaseDate).ToString("MM/dd/yyyy hh:mm", CultureInfo.CurrentCulture), Utils.Tenrary(o.HasBeenDelivered AndAlso o.HasBeenPaid, "lightgreen", "transparent"))
                     Else
-                        Dim gigo = gigTbl.FindById(o.Proposal)
                         Dim usro = usrTbl.FindById(New BsonValue(o.Buyer))
                         lblJobs.Text &= String.Format("<tr style='background-color: {7}'><td style='width: 20%;'><img src='{0}' style='width: 100%; height: auto;' /></td><td style='text-align: left; font-size: smaller;'><span style='color: gray;'>0x{5} </span> <a href='Profile.aspx?user={3}'><strong>{4}</strong></a> ordered <a href='PurchasePage.aspx?deal={1}'><strong>{2}</strong></a> at {6} </td></tr>",
                                                         Null(gigo.ImageURLs, New String() {usr.ProfilePic})(0), o.Id, gigo.Title, usro.Username, usro.FirstName & " " & usro.LastName, o.Id.ToString("X"), New NodaTime.Instant(o.PurchaseDate).ToString("MM/dd/yyyy hh:mm", CultureInfo.CurrentCulture), Utils.Tenrary(o.HasBeenDelivered AndAlso o.HasBeenPaid, "lightgreen", "yellow"))

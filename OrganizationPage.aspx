@@ -95,8 +95,12 @@
                         <div style="width: 100%; text-align: center; border: 1px solid; border-color: lightgray; border-radius: 10px;">
                         <b><asp:Label ID="lblCash" runat="server" Text="Label"></asp:Label></b>
                         <span style="color: darkslategray; font-size: small; font-family: 'Arial Rounded MT'">&nbsp;&nbsp;&nbsp; dC / Month</span>
-                    </div>
+                        </div>
                     </asp:Panel>
+                    <div style="width: 100%; text-align: center; border: 1px solid; border-color: lightgray; border-radius: 10px;">
+                        <span style="color: darkslategray; font-size: small; font-family: 'Arial Rounded MT'">Rating: &nbsp;&nbsp;&nbsp; </span>                        
+                        <b><asp:Label ID="lblRating" runat="server" Text="lblRating"></asp:Label></b>
+                    </div>
                 </td>
                 <td>
                     <table style="width: 100%; height: 100%; position: relative; table-layout: fixed;" border="0" cellpadding="5">

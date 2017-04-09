@@ -52,6 +52,7 @@ Partial Class ApproveOrg
 
         Using db = New LiteDatabase(Server.MapPath("~/App_Data/Database.accdb"))
             Dim orgTbl = db.GetCollection(Of Organization)("Organizations")
+            Dim usrTbl = db.GetCollection(Of User)("Users")
 
             Dim org = orgTbl.FindById(orgId)
             If org Is Nothing Then
@@ -59,11 +60,13 @@ Partial Class ApproveOrg
                 pnlNotFound.Visible = True
                 Return
             End If
+            Dim usr = usrTbl.FindById(org.OwnerID)
+            Dim curusr = usrTbl.FindById(New BsonValue(Session("UserID")))
 
             org.Approved = True
             org.Rejected = False
             orgTbl.Update(org)
-
+            Notifier.Notify(usr.Id, String.Format("Your organization <a href='OrganizationPage.aspx?org={0}'>{1}</a> has been approved by <a href='Profile.aspx?user={2}'>{3} {4}</a>", org.Id, org.OrganizationName, curusr.Username, curusr.FirstName, curusr.LastName), "OrganizationPage.aspx?org=" & org.Id, org.ImageLoc)
             If ViewState("Referrer") Is Nothing Then
                 Response.Redirect("/Default.aspx")
             Else

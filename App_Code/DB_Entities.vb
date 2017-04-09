@@ -92,13 +92,16 @@ Public Module DB_Stuff
     '    Public Property ParentComment  As Integer? ' Link Comment.Id
     'End Class
 
-    Public Class Message
+    Public Class Notification
         <BsonId>
         Public Property Id As Integer
-        Public Property Writer As Integer ' Link User.Id
         Public Property Receiver As Integer ' Link User.Id
         Public Property Content As String
-        Public Property WriteDate As Long
+        Public Property NotificationDate As Long
+        Public Property Link As String
+        Public Property ImageURL As String
+        Public Property Popped As Boolean
+        Public Property Seen As Boolean
     End Class
 
     Public Enum GigType

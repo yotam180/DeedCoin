@@ -51,6 +51,8 @@ Partial Class Hire_pg
                 }
                 buyTbl.Insert(entry)
                 buyTbl.Update(entry)
+                Notifier.Notify(gig.Offerer, String.Format("<a href='Profile.aspx?user={0}'>{1} {2}</a> has hired to your job <a href='GigPage.aspx?gig={3}'>{4}</a>", usr.Username, usr.FirstName, usr.LastName, gig.Id, gig.Title), "PurchasePage.aspx?deal=" & entry.Id, Null(gig.ImageURLs, New String() {"Images/profile.jpg"})(0))
+
                 Response.Redirect("/SalaryPage.aspx?deal=" & entry.Id.ToString)
             End Using
         Catch ex As Exception

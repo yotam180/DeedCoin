@@ -3,6 +3,7 @@ Imports NodaTime
 
 Partial Class MasterPage
     Inherits System.Web.UI.MasterPage
+    Public notNum As String = ""
 
     Public Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         Session.Timeout = 5760
@@ -12,9 +13,14 @@ Partial Class MasterPage
         If LoggedInPanel.Visible Then
             Using db = New LiteDatabase(Server.MapPath("~/App_Data/Database.accdb"))
                 Dim tblUsers As LiteCollection(Of User) = db.GetCollection(Of User)("Users")
+                Dim tblNots = db.GetCollection(Of Notification)("Notifications")
                 Dim user As User = tblUsers.FindById(Integer.Parse(Session("UserID")))
                 If user Is Nothing Then
                     Response.Redirect("/Logout.aspx")
+                End If
+                Dim nn = tblNots.Find(Function(x) x.Receiver = user.Id AndAlso Not x.Seen).Count
+                If nn > 0 Then
+                    notNum = "(" & nn & ") "
                 End If
                 Label1.Text = "<u>" & user.Username & "</u>"
                 user.LastLogin = SystemClock.Instance.Now.Ticks

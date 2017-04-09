@@ -49,7 +49,7 @@ Partial Class EditJob
                 Dim gigTbl = db.GetCollection(Of JobProposal)("Proposals")
                 Dim gig = gigTbl.FindById(Integer.Parse(Request.QueryString("job")))
                 gig.Description = txtDescription.Text
-                gig.ImageURLs = txtImages.Text.Split(New Char() {"\n", "\r"}, StringSplitOptions.RemoveEmptyEntries)
+                gig.ImageURLs = txtImages.Text.Split(Environment.NewLine)
                 gig.Price = Integer.Parse(txtPrice.Text)
                 gig.ShortDescription = txtShortDescription.Text
                 gig.VideoURL = txtVideo.Text

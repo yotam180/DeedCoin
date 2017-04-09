@@ -1,4 +1,5 @@
 ﻿Imports LiteDB
+Imports NodaTime
 
 Partial Class EditOrganization
     Inherits VerifiedUsersOnly
@@ -19,11 +20,18 @@ Partial Class EditOrganization
 
             Using db = New LiteDatabase(Server.MapPath("~/App_Data/Database.accdb"))
                 Dim orgTbl = db.GetCollection(Of Organization)("Organizations")
+                Dim buyTbl = db.GetCollection(Of Purchase)("Purchases")
+                Dim gigTbl = db.GetCollection(Of JobProposal)("Proposals")
+
                 Dim org = orgTbl.FindById(orgId)
                 If org Is Nothing Then
                     Response.Redirect("/OrganizationPage.aspx?org=" & orgId)
                     Return
                 End If
+
+                Dim interactions = buyTbl.FindAll().Select(Function(x) New Tuple(Of Purchase, JobProposal)(x, gigTbl.FindById(x.Proposal))).Where(Function(x) x.Item2.Type = GigType.OfferJob AndAlso x.Item2.OffererOrg = org.Id)
+
+
                 Dim usrTbl = db.GetCollection(Of User)("Users")
                 Dim usr = usrTbl.FindById(New BsonValue(Session("UserID")))
                 If usr Is Nothing Then
@@ -49,9 +57,9 @@ Partial Class EditOrganization
                 txtAudience.Text = org.Audience
                 lblMonthlyCoins.Text = org.MonthlyPoints
                 lblCoins.Text = org.Points
-                lblSpent.Text = "Not yet implemented"
-                lblInteractions.Text = "Not yet implemented"
-                lblMonthlyInteractions.Text = "Not yet implemented"
+                lblSpent.Text = interactions.Where(Function(x) x.Item1.HasBeenPaid).Select(Function(x) x.Item1.Transfer).Sum.ToString & " dC"
+                lblInteractions.Text = interactions.Count
+                lblMonthlyInteractions.Text = interactions.Where(Function(x) New Instant(x.Item1.PurchaseDate).ToDateTimeUtc.Month = DateTime.Now.Month).Count.ToString
                 txtMonthlyCoins.Text = org.MonthlyPoints
                 txtCurrentBalance.Text = org.Points
             End Using

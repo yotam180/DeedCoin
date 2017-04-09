@@ -253,7 +253,7 @@ Partial Class Register
                 'msg.Body = ProcessEmailMessage(File.ReadAllText(MapPath("App_Data/EmailVerification.txt")), newUser)
                 'msg.IsBodyHtml = True
                 'smtp.Send(msg)
-                Notifier.Notify(newUser.Email, ProcessEmailMessage(File.ReadAllText(MapPath("App_Data/EmailVerification.txt")), newUser), "Welcome to DeedCoin!")
+                Notifier.NotifyEmail(newUser.Email, ProcessEmailMessage(File.ReadAllText(MapPath("App_Data/EmailVerification.txt")), newUser), "Welcome to DeedCoin!")
 
 
                 Session("Username") = newUser.Username

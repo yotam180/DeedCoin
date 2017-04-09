@@ -23,6 +23,7 @@ Partial Class PurchasePage
             Dim buy = buyTbl.FindById(dealId)
             Dim usr = usrTbl.FindById(New BsonValue(Session("UserID")))
             Dim gig = gigTbl.FindById(buy.Proposal)
+            Dim buyer = usrTbl.FindById(buy.Buyer)
             If gig.Type = GigType.OfferJob Then
                 Response.Redirect("SalaryPage.aspx?deal=" & buy.Id)
             End If
@@ -35,7 +36,7 @@ Partial Class PurchasePage
             lblSeller.Text = String.Format("<a href='Profile.aspx?user={0}'>{1} {2}</a> (@{3})", offerer.Username, offerer.FirstName, offerer.LastName, offerer.Username)
             lblBDate.Text = New Instant(usr.JoinDate).ToString()
             lblAmount.Text = buy.Transfer & " dC"
-            lblBuyer.Text = String.Format("<a href='Profile.aspx?user={0}'>{1} {2}</a> (@{3})", usr.Username, usr.FirstName, usr.LastName, usr.Username)
+            lblBuyer.Text = String.Format("<a href='Profile.aspx?user={0}'>{1} {2}</a> (@{3})", buyer.Username, buyer.FirstName, buyer.LastName, buyer.Username)
             If gig.ImageURLs Is Nothing OrElse gig.ImageURLs.Length < 1 Then
                 imgPrc.ImageUrl = offerer.ProfilePic
             Else
@@ -63,8 +64,13 @@ Partial Class PurchasePage
             Try
                 Dim buyTbl = db.GetCollection(Of Purchase)("Purchases")
                 Dim buy = buyTbl.FindById(Integer.Parse(Request.QueryString("deal")))
+                Dim gigTbl = db.GetCollection(Of JobProposal)("Proposals")
+                Dim usrTbl = db.GetCollection(Of User)("Users")
+                Dim usr = usrTbl.FindById(New BsonValue(Session("UserID")))
+                Dim gig = gigTbl.FindById(buy.Proposal)
                 buy.HasBeenDelivered = True
                 buyTbl.Update(buy)
+                Notifier.Notify(buy.Buyer, String.Format("<a href='Profile.aspx?user={0}'>{1} {2}</a> has finished working on <a href='GigPage.aspx?gig={3}'>{4}</a>. Go pay them now!", usr.Username, usr.FirstName, usr.LastName, gig.Id, gig.Title), "PurchasePage.aspx?deal=" & buy.Id, Null(gig.ImageURLs, New String() {"Images/profile.jpg"})(0))
                 Response.Redirect("/PurchasePage.aspx?deal=" & Request.QueryString("deal"))
             Catch ex As Exception
                 Utils.Alert("Error: " & ex.Message)
@@ -82,6 +88,7 @@ Partial Class PurchasePage
                 Dim gigTbl = db.GetCollection(Of JobProposal)("Proposals")
                 Dim payer = usrTbl.FindById(New BsonValue(Session("UserID")))
                 Dim buy = buyTbl.FindById(Integer.Parse(Request.QueryString("deal")))
+                Dim gig = gigTbl.FindById(buy.Proposal)
                 Dim seller = usrTbl.FindById(New BsonValue(gigTbl.FindById(buy.Proposal).Offerer))
                 If payer.DeedCoins < buy.Transfer Then
                     IO.File.WriteAllText(Server.MapPath("App_Data/Log.txt"), "Not enough cash")
@@ -97,6 +104,7 @@ Partial Class PurchasePage
                 buy.HasBeenPaid = True
                 buy.Rating = rate
                 buyTbl.Update(buy)
+                Notifier.Notify(seller.Id, String.Format("<a href='Profile.aspx?user={0}'>{1} {2}</a> has paid for your gig, <a href='GigPage.aspx?gig={3}'>{4}</a>", payer.Username, payer.FirstName, payer.LastName, gig.Id, gig.Title), "PurchasePage.aspx?deal=" & buy.Id, Null(gig.ImageURLs, New String() {"Images/profile.jpg"})(0))
                 Response.Redirect("/PurchasePage.aspx?deal=" & Request.QueryString("deal"))
             Catch ex As Exception
                 IO.File.WriteAllText(Server.MapPath("App_Data/Log.txt"), ex.Message)

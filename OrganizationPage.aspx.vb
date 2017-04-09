@@ -20,6 +20,9 @@ Partial Class OrganizationPage
 
         Using db = New LiteDatabase(Server.MapPath("~/App_Data/Database.accdb"))
             Dim orgTbl = db.GetCollection(Of Organization)("Organizations")
+            Dim buyTbl = db.GetCollection(Of Purchase)("Purchases")
+            Dim gigTbl = db.GetCollection(Of JobProposal)("Proposals")
+            Dim usrTbl = db.GetCollection(Of User)("Users")
             Dim org = orgTbl.FindById(orgId)
             If org Is Nothing Then
                 pnlUser.Visible = False
@@ -34,15 +37,23 @@ Partial Class OrganizationPage
                 orgTbl.Update(org)
             End If
 
+            Dim interactions = buyTbl.FindAll().Select(Function(x) New Tuple(Of Purchase, JobProposal)(x, gigTbl.FindById(x.Proposal))).Where(Function(x) x.Item2.Type = GigType.OfferJob AndAlso x.Item2.OffererOrg = org.Id)
+            Dim interactionsNum = interactions.Where(Function(x) x.Item1.HasBeenDelivered AndAlso x.Item1.HasBeenPaid).Count
+            Dim rating As Decimal = 0.0
+            For Each i In interactions
+                rating += i.Item1.Rating
+            Next
+
             Dim pipeline = New MarkdownPipelineBuilder().UseAdvancedExtensions().Build()
             lblAbout.Text = Markdown.ToHtml(org.Description, pipeline)
             lblAddress.Text = org.Position.Address
             lblCash.Text = org.MonthlyPoints
             lblEXP.Text = org.RequestMonthlyUsers
             lblOrgName.Text = org.OrganizationName
-            lblInteractions.Text = "Successful interactions - TBI" ' TODO: implement interactions & interaction counter
+            lblInteractions.Text = "Successful interactions - " & interactionsNum ' TODO: implement interactions & interaction counter
             lblOpeningHours.Text = "Opened:" & org.OpeningHours
             lblAudience.Text = "For: " & org.Audience
+            lblRating.Text = rating & "&nbsp;&nbsp; <span style=""color: gold"">" & New String("★", Math.Ceiling(rating))
             Image1.ImageUrl = org.ImageLoc
 
             If org.Rejected Then
@@ -61,13 +72,16 @@ Partial Class OrganizationPage
 
             If Not Session("UserID") Is Nothing AndAlso ((Not owner Is Nothing AndAlso Session("UserID") = owner.Id) OrElse db.GetCollection(Of User)("Users").FindById(New BsonValue(Session("UserID"))).UserLevel > 1) Then
                 btnEdit.Visible = True
+            Else
+                btnEdit.Visible = False
+            End If
+
+            If Not Session("UserID") Is Nothing AndAlso (db.GetCollection(Of User)("Users").FindById(New BsonValue(Session("UserID"))).UserLevel > 1) Then
                 If Not (org.Approved OrElse org.Rejected) Then
                     pnlApprRej.Visible = True
                 ElseIf org.Rejected Then
                     pnlReAppr.Visible = True
                 End If
-            Else
-                btnEdit.Visible = False
             End If
         End Using
 

@@ -9,6 +9,7 @@ Partial Class GigPage
             Try
                 Dim gigTbl = db.GetCollection(Of JobProposal)("Proposals")
                 Dim usrTbl = db.GetCollection(Of User)("Users")
+                Dim buyTbl = db.GetCollection(Of Purchase)("Purchases")
                 Dim gigId As Integer
                 If Request.QueryString("gig") Is Nothing OrElse Not Integer.TryParse(Request.QueryString("gig"), gigId) Then
                     pnlNotFound.Visible = True
@@ -38,7 +39,7 @@ Partial Class GigPage
                 lblShortDesc.Text = gig.ShortDescription
                 Dim pipeline = New MarkdownPipelineBuilder().UseAdvancedExtensions().Build()
                 lblAbout.Text = Markdown.ToHtml(gig.Description, pipeline)
-                lblPurchases.Text = "Not yet implemented"
+                lblPurchases.Text = buyTbl.Find(Function(x) x.Proposal = gig.Id).Count
                 Dim res As String = ""
                 For i As Integer = 0 To gig.ImageURLs.Length - 1
                     res &= "<img src='" & gig.ImageURLs(i) & "' /><br/>"
@@ -53,6 +54,12 @@ Partial Class GigPage
 
                 If Session("UserID") Is Nothing OrElse (offerer.Id <> Session("UserID") AndAlso usrTbl.FindById(New BsonValue(Session("UserID"))).UserLevel < UserType.Administrator) Then
                     btnEdit.Visible = False
+                End If
+
+                If Session("UserID") IsNot Nothing AndAlso Session("UserID") <> (gig.Offerer) AndAlso usrTbl.FindById(New BsonValue(Session("UserID"))).DeedCoins > gig.Price Then
+                    btnBuy.Visible = True
+                Else
+                    btnBuy.Visible = False
                 End If
 
             Catch Exx As Exception

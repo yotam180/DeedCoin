@@ -15,7 +15,7 @@ Partial Class RecoverPassword
             For Each usr In usrTbl.Find(Function(x) x.Email.Equals(txtEmail.Text))
                 Dim notificationText = "<h2>Dear {name}!</h2>A password recovery request has been submitted for your email.<br/>If it wasn't you, just delete this message and continue.<br/>Your password: <b>{pass}</b>"
                 Dim fnot = notificationText.Replace("{name}", usr.FirstName & usr.LastName).Replace("{pass}", usr.Password)
-                Notifier.Notify(usr.Email, fnot, "DeedCoin password recovery")
+                Notifier.NotifyEmail(usr.Email, fnot, "DeedCoin password recovery")
             Next
         End Using
     End Sub

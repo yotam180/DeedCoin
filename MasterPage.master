@@ -4,10 +4,21 @@
 
 <html>
 <head runat="server">
-    <title>DeedCoin - Give More, Get More.</title>
+    <title><%=notNum %>DeedCoin - Give More, Get More.</title>
     <link rel="stylesheet" href="Style/StyleSheet.css" type="text/css" />
     <link rel="stylesheet" href="Style/Sidenav.css" type="text/css" />
     <script type="text/javascript" src="js/jquery.js"></script>
+    <!-- JavaScript -->
+    <script src="//cdn.jsdelivr.net/alertifyjs/1.9.0/alertify.min.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/alertifyjs/1.9.0/css/alertify.min.css"/>
+    <!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/alertifyjs/1.9.0/css/themes/default.min.css"/>
+    <!-- Semantic UI theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/alertifyjs/1.9.0/css/themes/semantic.min.css"/>
+    <!-- Bootstrap theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/alertifyjs/1.9.0/css/themes/bootstrap.min.css"/>    
     <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" />
     <script type="text/javascript">
         var navopen = false;
@@ -30,6 +41,21 @@
                 }
                 load();
             });
+        });
+
+        $(document).ready(function () {
+            setInterval(function () {
+                $.ajax({
+                    url: "/GetNotification.aspx",
+                    type: "GET",
+                    success: function (e) {
+                        if (e != "EMPTY")
+                        {
+                            alertify.success(e, function () { alert('X'); });
+                        }
+                    }
+                });
+            }, 5000);
         });
 
         function toggleNav() {
@@ -96,6 +122,7 @@
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <a href="#">About</a>
         <a href="MyZone.aspx">My Zone</a>
+        <a href="Notifications.aspx">Notifications</a>
         <a href="AddOrganization.aspx">Organizations</a>
         <asp:Panel ID="pnlSidebarAdmin" runat="server" Visible="false">
             <a href="Admin.aspx">Admin</a>
@@ -127,7 +154,7 @@
                         </div>
                     </div>
                 </td>
-                <td>&nbsp;<a href="http://google.com">Browse</a> <span style="float: right;"> <a href="Default.aspx"> How it works</a>&nbsp;</span></td>
+                <td>&nbsp;<a href="Search.aspx">Browse</a> <span style="float: right;"> <a href="Default.aspx"> How it works</a>&nbsp;</span></td>
                 <asp:Panel ID="LoggedOutPanel" runat="server">
                 <td><span style="float: right;"><a href="Login.aspx">Sign in</a> or <a href="Register.aspx">Sign up</a></span></td>
                 </asp:Panel>

@@ -10,6 +10,7 @@ Partial Class JobPage
                 Dim gigTbl = db.GetCollection(Of JobProposal)("Proposals")
                 Dim usrTbl = db.GetCollection(Of User)("Users")
                 Dim orgTbl = db.GetCollection(Of Organization)("Organizations")
+                Dim buyTbl = db.GetCollection(Of Purchase)("Purchases")
 
                 Dim gigId As Integer
                 If Request.QueryString("job") Is Nothing OrElse Not Integer.TryParse(Request.QueryString("job"), gigId) Then
@@ -40,7 +41,7 @@ Partial Class JobPage
                 lblShortDesc.Text = gig.ShortDescription
                 Dim pipeline = New MarkdownPipelineBuilder().UseAdvancedExtensions().Build()
                 lblAbout.Text = Markdown.ToHtml(gig.Description, pipeline)
-                lblPurchases.Text = "Not yet implemented"
+                lblPurchases.Text = buyTbl.Find(Function(x) x.Proposal = gig.Id).Count
                 Dim res As String = ""
                 For i As Integer = 0 To gig.ImageURLs.Length - 1
                     res &= "<img src='" & gig.ImageURLs(i) & "' /><br/>"

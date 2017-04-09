@@ -12,10 +12,8 @@ Partial Class Search
         If Request.HttpMethod = "GET" Then
             Dim q = Request.QueryString("q")
             Dim cat = Request.QueryString("cat")
-            If q IsNot Nothing Then
-                txtSearch.Text = q
-                Search(q, cat)
-            End If
+            txtSearch.Text = q
+            Search(q, cat)
         End If
     End Sub
 

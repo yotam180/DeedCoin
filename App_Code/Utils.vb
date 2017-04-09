@@ -5,6 +5,7 @@ Imports NodaTime
 Imports System.Net.Mail
 Imports System.Net
 Imports System.Runtime.CompilerServices
+Imports LiteDB
 
 Public Module StrUtil
 
@@ -151,7 +152,7 @@ End Class
 
 
 Public Class Notifier
-    Public Shared Sub Notify(email As String, content As String, subject As String)
+    Public Shared Sub NotifyEmail(email As String, content As String, subject As String)
         Dim template = File.ReadAllText(HttpContext.Current.Server.MapPath("~/App_Data/EmailNotificationTemplate.html"))
         Dim fcontent = template.Replace("{message}", content)
 
@@ -172,5 +173,22 @@ Public Class Notifier
         Catch ex As Exception
             Return
         End Try
+    End Sub
+
+    Public Shared Sub Notify(user As Integer, msg As String, link As String, img As String)
+        Using db = New LiteDatabase(HttpContext.Current.Server.MapPath("~/App_Data/Database.accdb"))
+            Dim notification = New Notification With {
+                .Content = msg,
+                .ImageURL = img,
+                .Link = link,
+                .Receiver = user,
+                .NotificationDate = SystemClock.Instance.Now.Ticks,
+                .Popped = False,
+                .Seen = False
+            }
+            Dim msgTbl = db.GetCollection(Of Notification)("Notifications")
+            msgTbl.Insert(notification)
+            msgTbl.Update(notification)
+        End Using
     End Sub
 End Class
