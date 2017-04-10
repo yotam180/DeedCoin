@@ -68,7 +68,7 @@ Partial Class Conversation
             msgTbl.Insert(entry)
             msgTbl.Update(entry)
             txtMsg.Text = ""
-            Notifier.Notify(entry.Reciever, String.Format("<a href='Profile.aspx?user={0}'>{1} {2}</a> has sent you a message", usr.Username, usr.FirstName, usr.LastName), "Conversation.aspx?to=" & entry.Sender, usr.ProfilePic.Substring(2))
+            Notifier.Notify(entry.Reciever, String.Format("<a href='Profile.aspx?user={0}'>{1} {2}</a> has sent you a message", usr.Username, usr.FirstName, usr.LastName), "Conversation.aspx?to=" & entry.Sender, Null(usr.ProfilePic, "~/Images/profile.jpg").Substring(2))
             Response.Redirect("Conversation.aspx?to=" & Request.QueryString("to"))
         End Using
     End Sub
