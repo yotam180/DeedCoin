@@ -158,4 +158,12 @@ Partial Class Profile
         End Using
     End Sub
 
+    Public Sub Message(sender As Object, e As EventArgs) Handles btnMessage.Click
+        Using db = New LiteDatabase(Server.MapPath("~/App_Data/Database.accdb"))
+            Dim usrTbl = db.GetCollection(Of User)("Users")
+            Dim usr = usrTbl.FindOne(Function(x) x.Username.Equals(Request.QueryString("user")))
+            Response.Redirect("Conversation.aspx?to=" & usr.Id)
+        End Using
+    End Sub
+
 End Class

@@ -68,7 +68,8 @@
                                 <h2><asp:Label ID="lblFullName" runat="server" Text="Label"></asp:Label> <span style="color: gray; font-size: medium;">(@<asp:Label ID="lblUsername" runat="server" />)</span></h2>
                             </td>
                             <td>
-                                <asp:LinkButton ID="btnEdit" runat="server">Edit</asp:LinkButton>
+                                <asp:LinkButton ID="btnEdit" runat="server">Edit</asp:LinkButton><br /><br />
+                                <asp:LinkButton ID="btnMessage" runat="server">Message</asp:LinkButton>
                              </td>
                         </tr>
                         <tr>

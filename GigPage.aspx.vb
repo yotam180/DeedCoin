@@ -32,6 +32,10 @@ Partial Class GigPage
                 End If
 
                 Dim offerer = usrTbl.FindById(Utils.Tenrary(gig.Offerer Is Nothing, 0, CType(gig.Offerer, Integer)))
+                Dim usr As User = Nothing
+                If Session("UserID") IsNot Nothing Then
+                    usr = usrTbl.FindById(New BsonValue(Session("UserID")))
+                End If
 
                 lblFullName.Text = gig.Title
                 lblSeller.Text = "<a href='/Profile.aspx?user=" & offerer.Username & "'>" & offerer.FirstName & " " & offerer.LastName & "</a> <span style='color: gray; font-size: small;'>(@" & offerer.Username & ")</span>"
@@ -74,7 +78,7 @@ Partial Class GigPage
                 Dim comments = cmtTbl.Find(Function(x) x.ProposalId = gig.Id).OrderByDescending(Function(x) x.WriteDate)
                 For Each cmt In comments
                     Dim writer = usrTbl.FindById(cmt.Writer)
-                    lblComments.Text &= String.Format("<div style='display: inline-block; width: 80%; border: 3px solid gray; border-radius: 10px; padding: 10px; min-height: 50px; background-color: whitesmoke; text-align: left;'><h3><a href='{0}'>{1} {2}</a> says...&nbsp;&nbsp;&nbsp;&nbsp;<span style='font-size: smaller; color: gray'>{3}</span></h3>{4}</div>", writer.Username, writer.FirstName, writer.LastName, New NodaTime.Instant(cmt.WriteDate).ToString("MM/dd/yyyy hh:mm", CultureInfo.CurrentCulture), cmt.Content)
+                    lblComments.Text &= String.Format("<div style='display: inline-block; width: 80%; border: 3px solid gray; border-radius: 10px; padding: 10px; min-height: 50px; background-color: whitesmoke; text-align: left;'><h3><a href='{0}'>{1} {2}</a> says...&nbsp;&nbsp;&nbsp;&nbsp;<span style='font-size: smaller; color: gray'>{3}</span></h3>{4}{5}</div>", writer.Username, writer.FirstName, writer.LastName, New NodaTime.Instant(cmt.WriteDate).ToString("MM/dd/yyyy hh:mm", CultureInfo.CurrentCulture), cmt.Content, Utils.Tenrary(usr IsNot Nothing AndAlso cmt.Writer = usr.Id, "<br/><br/><a href='UpdateComment.aspx?id=" & cmt.Id & "'>Edit</a> or <a href='DeleteComment.aspx?id=" & cmt.Id & "'>Delete</a>", ""))
                 Next
 
             Catch Exx As Exception

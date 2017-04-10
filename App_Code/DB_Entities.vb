@@ -103,6 +103,15 @@ Public Module DB_Stuff
         Public Property Seen As Boolean
     End Class
 
+    Class Message
+        <BsonId>
+        Public Property Id As Integer
+        Public Property Sender As Integer
+        Public Property Reciever As Integer
+        Public Property Content As String
+        Public Property WriteDate As Long
+    End Class
+
     Public Enum GigType
         OfferJob
         OfferProduct

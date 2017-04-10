@@ -44,18 +44,25 @@
         });
 
         $(document).ready(function () {
-            setInterval(function () {
+            var a = function () {
                 $.ajax({
                     url: "/GetNotification.aspx",
                     type: "GET",
                     success: function (e) {
-                        if (e != "EMPTY")
-                        {
+                        if (e != "EMPTY") {
                             alertify.success(e, function () { alert('X'); });
+                            setTimeout(a, 0);
                         }
+                        else {
+                            setTimeout(a, 5000);
+                        }
+                    },
+                    error: function (a, b, c) {
+                        setTimeout(a, 1000);
                     }
                 });
-            }, 5000);
+            };
+            a();
         });
 
         function toggleNav() {
