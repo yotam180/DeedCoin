@@ -28,6 +28,7 @@ Public Module DB_Stuff
         Public Property LastProfileViewer As Integer
         Public Property Country As String
         Public Property UserLevel As UserType
+        Public Property EmailNotifications As Boolean = False
     End Class ' Also ignore the missing parentheses. Still C#, don't be so suspicious...
 
 

@@ -38,6 +38,7 @@ Partial Class UpdateProfile
                 txtEmail.Text = user.Email
                 txtAbout.Text = user.Description
                 txtAddress.Text = user.Location
+                cbxEmail.Checked = user.EmailNotifications
             End Using
             Session("Address") = ""
         End If
@@ -87,6 +88,7 @@ Partial Class UpdateProfile
                 user.Location = txtAddress.Text
                 user.Country = Utils.ExtractCountry(user.Position.Address)
             End If
+            user.EmailNotifications = cbxEmail.Checked
             Dim dc As Integer
             If Integer.TryParse(txtCoins.Text, dc) Then
                 user.DeedCoins = dc

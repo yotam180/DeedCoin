@@ -229,7 +229,8 @@ Partial Class Register
                     .Country = Utils.ExtractCountry(geopos.Address),
                     .LastProfileViewer = 0,
                     .ProfileViews = 0,
-                    .UserLevel = UserType.Regular
+                    .UserLevel = UserType.Regular,
+                    .EmailNotifications = False
                 }
                 users.Insert(newUser)
                 users.Update(newUser) ' Necessary? 

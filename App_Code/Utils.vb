@@ -193,6 +193,11 @@ Public Class Notifier
                 .Seen = False
             }
             Dim msgTbl = db.GetCollection(Of Notification)("Notifications")
+            Dim usrTbl = db.GetCollection(Of User)("Users")
+            Dim usr = usrTbl.FindById(user)
+            If usr.EmailNotifications Then
+                NotifyEmail(usr.Email, "<h2>You recieved a notificaton:</h2>" & msg, "You have a new notification")
+            End If
             msgTbl.Insert(notification)
             msgTbl.Update(notification)
         End Using

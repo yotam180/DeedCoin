@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
     <script>
         $(document).ready(function () {
-            $("#ContentPlaceHolder1_lblNotifications").html($("#ContentPlaceHolder1_lblNotifications").html.replace(/\<br\>))
+            //$("#ContentPlaceHolder1_lblNotifications").html($("#ContentPlaceHolder1_lblNotifications").html.replace(/\<br\>/g))
         });
     </script>
 </asp:Content>

@@ -48,6 +48,8 @@
                         <asp:TextBox placeholder="Address/Location (ex. HaZafon, Israel)" CssClass="large_txt" style="font-size: 17px;" ID="txtAddress" runat="server" Width="70%" Font-Bold="True" AutoPostBack="True"  TabIndex="6"></asp:TextBox>
                         <br />
                         <asp:Label runat="server" ID="lblAddress" Visible="False"></asp:Label>
+                        <br />
+                        <asp:CheckBox ID="cbxEmail" runat="server" /><strong>Send Email notifications? </strong> 
                     </ContentTemplate>
                 </asp:UpdatePanel>
                 <br />
