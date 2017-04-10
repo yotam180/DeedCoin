@@ -55,6 +55,10 @@
                         <span style="color: darkslategray; font-size: small; font-family: 'Arial Rounded MT'">&nbsp;&nbsp;&nbsp;Deliveries: </span>
                         <b><asp:Label ID="lblPurchases" runat="server" Text="Label"></asp:Label></b>
                     </div>
+                    <div style="width: 100%; text-align: center; border: 1px solid; border-color: lightgray; border-radius: 10px;">
+                        <span style="color: darkslategray; font-size: small; font-family: 'Arial Rounded MT'">Rating: &nbsp;&nbsp;&nbsp; </span>                        
+                        <b><asp:Label ID="lblRating" runat="server" Text="lblRating"></asp:Label></b>
+                    </div>
                     </asp:Panel>
                 </td>
                 <td>

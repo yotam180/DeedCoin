@@ -15,6 +15,8 @@ Partial Class GetNotification
                 msg.Popped = True
                 msgTbl.Update(msg)
                 Response.Write(msg.Content)
+                Response.Write(Environment.NewLine)
+                Response.Write(msg.Link)
             End Using
         Catch ex As Exception
             Response.Write("EMPTY")

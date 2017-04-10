@@ -50,7 +50,15 @@
                     type: "GET",
                     success: function (e) {
                         if (e != "EMPTY") {
-                            alertify.success(e, function () { alert('X'); });
+                            var content = e.split("\n");
+                            var audio = new Audio('Images/notification.mp3');
+                            audio.play();
+                            var msg = alertify.success(content[0], 5);
+                            msg.callback = function (clicked) {
+                                if (clicked) {
+                                    location.href = content[1];
+                                }
+                            }
                             setTimeout(a, 0);
                         }
                         else {
@@ -147,6 +155,11 @@
                     <a href="Default.aspx"><span class="middle"><img src="Images/logo.png" style="height: 35px; width: 182px" />
                         </span></a>
                 </td>
+                <asp:Panel ID="pnlNotif" runat="server" Visible="true">
+                    <td style="width: 10%; vertical-align: middle">
+                        This is a new td!
+                    </td>
+                </asp:Panel>
                 <td style="width: 215px">
                     <div id="DIV_1">
                         <span id="SPAN_1" class="_sel1 menbutt" dd-menu="_sel1"></span>

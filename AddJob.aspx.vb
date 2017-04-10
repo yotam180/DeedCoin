@@ -13,7 +13,7 @@ Partial Class AddJob
                 Dim orgTbl = db.GetCollection(Of Organization)("Organizations")
                 Dim jobTbl = db.GetCollection(Of JobProposal)("Proposals")
                 Dim usr = usrTbl.FindById(New BsonValue(Session("UserID")))
-                Dim orgs = orgTbl.Find(Function(x) x.OwnerID = usr.Id).OrderBy(Function(x) x.OrganizationName)
+                Dim orgs = orgTbl.Find(Function(x) x.Approved AndAlso x.OwnerID = usr.Id).OrderBy(Function(x) x.OrganizationName)
                 For Each org As Organization In orgs
                     DropDownList1.Items.Add(New ListItem(org.OrganizationName, org.Id.ToString))
                 Next

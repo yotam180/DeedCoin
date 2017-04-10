@@ -57,6 +57,19 @@ Partial Class GigPage
                 lblPrice.Text = gig.Price
                 lblPriceShow.Text = gig.Price
 
+                Dim ints = buyTbl.Find(Function(x) x.Proposal = gig.Id AndAlso x.Rating > 0)
+                Dim inn = ints.Count
+                If inn = 0 Then
+                    lblRating.Text = "0"
+                Else
+                    Dim rating = 0.0
+                    For Each i In ints
+                        rating += i.Rating
+                    Next
+                    rating = rating / inn
+                    lblRating.Text = rating & "&nbsp;&nbsp; <span style=""color: gold"">" & New String("★", Math.Ceiling(rating))
+                End If
+
                 If Session("UserID") Is Nothing OrElse Session("UserID") = offerer.Id Then
                     btnBuy.Visible = False
                 End If

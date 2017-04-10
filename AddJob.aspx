@@ -45,6 +45,10 @@
                     <ContentTemplate>
                         <asp:TextBox placeholder="Job title" CssClass="large_txt" style="font-size: 17px;" ID="txtGigName" runat="server" Width="70%" Font-Bold="True" AutoPostBack="True" TabIndex="1"></asp:TextBox>
                         <br />
+                        <strong>Organization: </strong><asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="true">
+                        </asp:DropDownList><br />
+                        <asp:Image ID="imgOrg" runat="server" Height="100px" /><br />
+                        
                         <asp:TextBox placeholder="Short description" CssClass="large_txt" style="font-size: 17px;" ID="txtShortDescription" runat="server" Width="70%" Font-Bold="True" AutoPostBack="True" TabIndex="1"></asp:TextBox>
                         <br /><br />
                         <asp:TextBox placeholder="Description (markdown friendly)" CssClass="large_txt" style="font-size: 17px;" ID="txtDescription" runat="server" Width="100%" Font-Bold="True" AutoPostBack="True" TabIndex="1" Height="300px" TextMode="MultiLine"></asp:TextBox>
@@ -56,11 +60,6 @@
                         <asp:TextBox placeholder="Image URLs (one per line)" CssClass="large_txt" style="font-size: 17px;" ID="txtImages" runat="server" Width="100%" Font-Bold="True" AutoPostBack="True" TabIndex="1" Height="60px" TextMode="MultiLine"></asp:TextBox>
                         <br />
                         * First image URL will be the featured image of your job.
-                        <br /><br />
-                        
-                        <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="true">
-                        </asp:DropDownList><br />
-                        <asp:Image ID="imgOrg" runat="server" Height="100px" />
                         
                         <br /><br />
                     </ContentTemplate>
