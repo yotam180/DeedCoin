@@ -94,10 +94,14 @@
                              </td>
                         </tr>
                     </table>
+                    <h2>Gigs by this user:</h2>
                 </td>
                 <td style="width: 15%;"></td>
             </tr>
         </table>
+        <div style="border: 2px solid black; width: 70%; margin: auto; min-height: 200px;">
+            <asp:Label ID="lblGigs" runat="server"></asp:Label>
+        </div>
     </asp:Panel>
     <asp:Panel ID="pnlNotFound" runat="server" Visible="false">
         <div style="width: 100%; text-align: center;">

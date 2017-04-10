@@ -37,6 +37,17 @@ Partial Class OrganizationPage
                 orgTbl.Update(org)
             End If
 
+            Dim jobs = gigTbl.FindAll.Where(Function(x) Not x.Disabled AndAlso x.OffererOrg IsNot Nothing AndAlso x.OffererOrg = org.Id)
+            If jobs.Count = 0 Then
+                lblJobs.Text = "This organization has no jobs available"
+            Else
+                lblJobs.Text = "<table style='table-layout: fixed; width: 100%;' cellpadding='10px'>"
+                For Each job In jobs
+                    lblJobs.Text &= RowOf(job.ImageURLs(0), job.Title, job.ShortDescription, "JobPage.aspx?job=" & job.Id)
+                Next
+                lblJobs.Text &= "</table>"
+            End If
+
             Dim interactions = buyTbl.FindAll().Select(Function(x) New Tuple(Of Purchase, JobProposal)(x, gigTbl.FindById(x.Proposal))).Where(Function(x) x.Item2.Type = GigType.OfferJob AndAlso x.Item2.OffererOrg = org.Id)
             Dim interactionsNum = interactions.Where(Function(x) x.Item1.HasBeenDelivered AndAlso x.Item1.HasBeenPaid).Count
             Dim inn = interactions.Count
@@ -92,6 +103,7 @@ Partial Class OrganizationPage
                     pnlReAppr.Visible = True
                 End If
             End If
+
         End Using
 
     End Sub
@@ -120,5 +132,34 @@ Partial Class OrganizationPage
             End If
         End Using
     End Sub
+
+    Public Sub Message(sender As Object, e As EventArgs) Handles btnMsg.Click
+        Using db = New LiteDatabase(Server.MapPath("~/App_Data/Database.accdb"))
+            Dim orgName = Request.QueryString("org")
+            If orgName Is Nothing Then
+                pnlUser.Visible = False
+                pnlNotFound.Visible = True
+                Return
+            End If
+            Dim orgId As Integer
+            If Not Integer.TryParse(orgName, orgId) Then
+                pnlUser.Visible = False
+                pnlNotFound.Visible = True
+                Return
+            End If
+            Dim orgTbl = db.GetCollection(Of Organization)("Organizations")
+            Dim org = orgTbl.FindById(orgId)
+            If org Is Nothing Then
+                pnlUser.Visible = False
+                pnlNotFound.Visible = True
+                Return
+            End If
+            Response.Redirect("Conversation.aspx?to=" & org.OwnerID)
+        End Using
+    End Sub
+
+    Public Function RowOf(img As String, title As String, desc As String, href As String) As String
+        Return String.Format("<tr><td style='width: 20%;'><img src='{0}' style='width: 100%; height: auto;'/></td><td><a href='{1}'><h2 style='color: black'>{2}</h2></a><span style='color: darkgray'>{3}</span></td></tr>", img, href, title, desc)
+    End Function
 
 End Class

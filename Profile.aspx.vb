@@ -49,6 +49,17 @@ Partial Class Profile
                 rating = rating / inn
             End If
 
+            Dim jobs = gigTbl.FindAll.Where(Function(x) Not x.Disabled AndAlso x.Type = GigType.OfferProduct AndAlso x.Offerer = user.Id)
+            If jobs.Count = 0 Then
+                lblGigs.Text = "This user has no gigs available"
+            Else
+                lblGigs.Text = "<table style='table-layout: fixed; width: 100%;' cellpadding='10px'>"
+                For Each job In jobs
+                    lblGigs.Text &= RowOf(job.ImageURLs(0), job.Title, job.ShortDescription, "JobPage.aspx?job=" & job.Id)
+                Next
+                lblGigs.Text &= "</table>"
+            End If
+
             ''''''''''''''''''''''''''''''''''''''''''' Now let's do the cool stuff 8D
             lblFullName.Text = user.FirstName & " " & user.LastName
             If user.UserLevel > 2 Then
@@ -165,5 +176,9 @@ Partial Class Profile
             Response.Redirect("Conversation.aspx?to=" & usr.Id)
         End Using
     End Sub
+
+    Public Function RowOf(img As String, title As String, desc As String, href As String) As String
+        Return String.Format("<tr><td style='width: 20%;'><img src='{0}' style='width: 100%; height: auto;'/></td><td><a href='{1}'><h2 style='color: black'>{2}</h2></a><span style='color: darkgray'>{3}</span></td></tr>", img, href, title, desc)
+    End Function
 
 End Class
