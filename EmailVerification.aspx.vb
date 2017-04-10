@@ -19,6 +19,7 @@ Partial Class EmailVerification
                     tbl.Update(user)
                     txtCode.BackColor = Color.PaleGreen
                     lblState.Visible = True
+                    Response.Redirect("MyZone.aspx")
                     lblState.Text = "Great! Your email is verified. You can now navigate through the website freely."
                     ' Response.Write("<script>setTimeout(function(){location.href='/Default.aspx';}, 1000)</script>")
                 Else

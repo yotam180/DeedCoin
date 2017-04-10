@@ -21,6 +21,8 @@
                         </asp:LinkButton>
                     </ContentTemplate>
                 </asp:UpdatePanel>
+                <br /><br />
+                * Email make take up to a few minutes to appear. Be patient.
             </td><td style="width: 20%; text-align: center;"></td>
         </tr>
     </table>

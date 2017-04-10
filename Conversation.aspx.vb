@@ -23,7 +23,7 @@ Partial Class Conversation
             If Request.QueryString("to") Is Nothing OrElse Not Integer.TryParse(Request.QueryString("to"), usrId) Then
                 lblMsg.Text = "<strong>Please select one of your contacts</strong>"
                 If messengers.Count > 0 Then
-                    usrId = messengers(0)
+                    Response.Redirect("Conversation.aspx?to=" & messengers(0))
                 Else
                     btnSend.Visible = False
                     Return
