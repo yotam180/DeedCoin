@@ -21,9 +21,13 @@ Partial Class Conversation
 
             Dim usrId As Integer
             If Request.QueryString("to") Is Nothing OrElse Not Integer.TryParse(Request.QueryString("to"), usrId) Then
-                lblMsg.Text = "<strong>Error: bad query string</strong>"
-                btnSend.Visible = False
-                Return
+                lblMsg.Text = "<strong>Please select one of your contacts</strong>"
+                If messengers.Count > 0 Then
+                    usrId = messengers(0)
+                Else
+                    btnSend.Visible = False
+                    Return
+                End If
             End If
             Dim usr = usrTbl.FindById(usrId)
             If usr Is Nothing Then
@@ -64,7 +68,7 @@ Partial Class Conversation
             msgTbl.Insert(entry)
             msgTbl.Update(entry)
             txtMsg.Text = ""
-            Notifier.Notify(entry.Reciever, String.Format("<a href='Profile.aspx?user={0}'>{1} {2}</a> has sent you a message", usr.Username, usr.FirstName, usr.LastName), "Conversation.aspx?to=" & entry.Sender, usr.ProfilePic)
+            Notifier.Notify(entry.Reciever, String.Format("<a href='Profile.aspx?user={0}'>{1} {2}</a> has sent you a message", usr.Username, usr.FirstName, usr.LastName), "Conversation.aspx?to=" & entry.Sender, usr.ProfilePic.Substring(2))
             Response.Redirect("Conversation.aspx?to=" & Request.QueryString("to"))
         End Using
     End Sub

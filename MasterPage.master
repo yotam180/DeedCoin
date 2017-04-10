@@ -157,7 +157,8 @@
                 </td>
                 <asp:Panel ID="pnlNotif" runat="server" Visible="true">
                     <td style="width: 10%; vertical-align: middle">
-                        This is a new td!
+                        <a href="Notifications.aspx"><img src="Images/notification_<%=noti %>.png" style="cursor: pointer; display: inline-block; height: 50px;" /></a>
+                        <a href="Conversation.aspx"><img src="Images/mail.png" style="cursor: pointer; display: inline-block; height: 50px;" /></a>
                     </td>
                 </asp:Panel>
                 <td style="width: 215px">

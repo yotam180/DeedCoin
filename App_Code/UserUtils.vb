@@ -15,7 +15,7 @@ Public Class UserUtils
 
     Public Shared Sub LoggedInOnly(Response As HttpResponse, Session As HttpSessionState)
         If Session("UserID") Is Nothing Then
-            Response.Redirect("/Register.aspx")
+            Response.Redirect("/Login.aspx")
         End If
     End Sub
 

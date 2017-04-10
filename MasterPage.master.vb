@@ -4,12 +4,14 @@ Imports NodaTime
 Partial Class MasterPage
     Inherits System.Web.UI.MasterPage
     Public notNum As String = ""
+    Public noti As String = "empty"
 
     Public Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         Session.Timeout = 5760
         LoggedOutPanel.Visible = Session("UserID") = Nothing
         LoggedInPanel.Visible = Not LoggedOutPanel.Visible
         pnlBurger.Visible = LoggedInPanel.Visible
+        pnlNotif.Visible = pnlBurger.Visible
         If LoggedInPanel.Visible Then
             Using db = New LiteDatabase(Server.MapPath("~/App_Data/Database.accdb"))
                 Dim tblUsers As LiteCollection(Of User) = db.GetCollection(Of User)("Users")
@@ -20,6 +22,7 @@ Partial Class MasterPage
                 End If
                 Dim nn = tblNots.Find(Function(x) x.Receiver = user.Id AndAlso Not x.Seen).Count
                 If nn > 0 Then
+                    noti = "bold"
                     notNum = "(" & nn & ") "
                 End If
                 Label1.Text = "<u>" & user.Username & "</u>"
