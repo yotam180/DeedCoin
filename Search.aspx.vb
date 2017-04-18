@@ -65,7 +65,7 @@ Partial Class Search
                 Dim tbl = db.GetCollection(Of Organization)("Organizations")
                 Dim src = tbl.FindAll()
                 If q <> "" Then
-                    src = src.Where(Function(x) Relevancy(q, String.Format("{0} {1}", x.OrganizationName, x.Description)) > 0).OrderByDescending(Function(x) Relevancy(q, String.Format("{0} {1}", x.OrganizationName, x.Description))).ThenBy(Function(x) x.OrganizationName)
+                    src = src.Where(Function(x) x.Approved AndAlso Relevancy(q, String.Format("{0} {1}", x.OrganizationName, x.Description)) > 0).OrderByDescending(Function(x) Relevancy(q, String.Format("{0} {1}", x.OrganizationName, x.Description))).ThenBy(Function(x) x.OrganizationName)
                 End If
                 For Each res In src
                     lblRes.Text &= RowOf(Null(res.ImageLoc, "~/Images/profile.jpg"), res.OrganizationName, res.Description, "OrganizationPage.aspx?org=" & res.Id)
