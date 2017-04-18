@@ -105,7 +105,7 @@ Partial Class Profile
                 curuser = tblUsers.FindById(Double.Parse(Session("UserID")))
             End If
 
-            If Session("UserID") = user.Id OrElse (Not curuser Is Nothing AndAlso curuser.UserLevel > 1) Then
+            If Session("UserID") = user.Id OrElse (Not curuser Is Nothing AndAlso curuser.UserLevel > UserType.Regular) Then
                 Image1.Style.Add("cursor", "pointer")
                 btnEdit.Visible = True
                 pnlUser.Visible = True
@@ -163,7 +163,7 @@ Partial Class Profile
             user = users.First() ' Found our user.
             Dim curuser As User = tblUsers.FindById(Integer.Parse(Session("UserID")))
 
-            If Session("UserID") = user.Id OrElse (Not curuser Is Nothing AndAlso curuser.UserLevel > 1) Then
+            If Session("UserID") = user.Id OrElse (Not curuser Is Nothing AndAlso curuser.UserLevel > UserType.Regular) Then
                 Response.Redirect("/UpdateProfile.aspx?user=" & username)
             End If
         End Using

@@ -74,7 +74,7 @@ Partial Class GigPage
                     btnBuy.Visible = False
                 End If
 
-                If Session("UserID") Is Nothing OrElse (offerer.Id <> Session("UserID") AndAlso usrTbl.FindById(New BsonValue(Session("UserID"))).UserLevel < UserType.Administrator) Then
+                If Session("UserID") Is Nothing OrElse (offerer.Id <> Session("UserID") AndAlso usrTbl.FindById(New BsonValue(Session("UserID"))).UserLevel < UserType.Moderator) Then
                     btnEdit.Visible = False
                 End If
 

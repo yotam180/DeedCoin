@@ -13,7 +13,7 @@ Partial Class UpdateProfile
             Using db As LiteDatabase = New LiteDatabase(Server.MapPath("~/App_Data/Database.accdb"))
                 Dim tblUsers As LiteCollection(Of User) = db.GetCollection(Of User)("Users")
                 Dim user As User = tblUsers.FindById(Integer.Parse(Session("UserID")))
-                If user.UserLevel < UserType.Administrator Then
+                If user.UserLevel < UserType.Moderator Then
                     txtCoins.Enabled = False
                 End If
                 If Request.QueryString("user") <> Session("Usrname") Then

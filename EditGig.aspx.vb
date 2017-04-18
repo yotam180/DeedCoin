@@ -28,7 +28,7 @@ Partial Class EditGig
                 Response.Redirect("/GigPage.aspx?")
             End If
             Dim usr = usrTbl.FindById(userId)
-            If usr Is Nothing OrElse (usr.Id <> gig.Offerer AndAlso usr.UserLevel < UserType.Administrator) Then
+            If usr Is Nothing OrElse (usr.Id <> gig.Offerer AndAlso usr.UserLevel < UserType.Moderator) Then
                 Response.Redirect("/GigPage.aspx?")
             End If
 

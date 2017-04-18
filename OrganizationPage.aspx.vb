@@ -96,7 +96,7 @@ Partial Class OrganizationPage
                 btnEdit.Visible = False
             End If
 
-            If Not Session("UserID") Is Nothing AndAlso (db.GetCollection(Of User)("Users").FindById(New BsonValue(Session("UserID"))).UserLevel > 1) Then
+            If Not Session("UserID") Is Nothing AndAlso (db.GetCollection(Of User)("Users").FindById(New BsonValue(Session("UserID"))).UserLevel > UserType.Regular) Then
                 If Not (org.Approved OrElse org.Rejected) Then
                     pnlApprRej.Visible = True
                 ElseIf org.Rejected Then
